@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Registrarse
+Route::post('/register', [AuthController::class, 'register']);
+//Iniciar sesión
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware(['jwt'])->group(function()
+{
+    // Logout
+    Route::post('/user/logout', [AuthController::class, 'logout']);
+    // Editar usuario
+    Route::put('/user/edit', [UserController::class, 'edit']);
 });
