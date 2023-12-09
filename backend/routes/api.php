@@ -27,7 +27,7 @@ Route::middleware(['jwt'])->group(function()
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // Actualizar Contraseña
-    Route::put('/update-password/{rut}', [AuthController::class, 'updatePassword']);
+    Route::put('/update-password', [AuthController::class, 'updatePassword']);
 
     // //Ver repositorios
     // Route::get('/users/', [UserController::class, 'edit']);
@@ -36,5 +36,5 @@ Route::middleware(['jwt'])->group(function()
     // Route::get('/users/', [UserController::class, 'edit']);
 
     // Editar usuario
-    Route::put('/profile/edit/{rut}', [UserController::class, 'edit']);
+    Route::put('/profile/edit', [UserController::class, 'edit']);
 });

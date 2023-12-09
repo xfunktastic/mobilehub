@@ -10,83 +10,110 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
+    /**
+     * Registro de usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(Request $request)
     {
         try {
+            // Validación de datos ingresados
             $messages = validationMessages();
-            $this->validate($request,[
-                'rut' => ['required','string','unique:users,rut','regex:/^\d{1,2}\.\d{3}\.\d{3}\-[0-9kK]$/',
-                function ($attribute, $value, $fail) use ($request) {$this->validateRut($request->rut, $value, $fail);},],
-                'full_name'=> 'required|string|min:10|max:150',
+            $this->validate($request, [
+                'rut' => [
+                    'required',
+                    'string',
+                    'unique:users,rut',
+                    'regex:/^\d{1,2}\.\d{3}\.\d{3}\-[0-9kK]$/',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $this->validateRut($request->rut, $value, $fail);
+                    },
+                ],
+                'full_name' => 'required|string|min:10|max:150',
                 'email' => 'required|string|regex:/^[^@]+@[^@.]+.[^@]+$/|ends_with:ucn.cl,alumnos.ucn.cl,disc.ucn.cl,ce.ucn.cl|unique:users,email',
                 'year' => 'required|integer|min:4|integer|between:1900,' . date('Y'),
             ], $messages);
 
+            // Validación y limpieza del RUT
             $cleanedRut = $this->validateRut($request->rut, $request->rut, function () {});
+
+            // Creación del nuevo usuario
             $user = User::create([
                 'rut' => $request->rut,
                 'full_name' => $request->full_name,
                 'email' => $request->email,
-                'password' => $cleanedRut, // Utilizar el RUT modificado como contraseña
+                'password' => bcrypt($cleanedRut), // Utilizar el RUT modificado como contraseña
                 'year' => $request->year,
             ]);
 
+            // Generación de token JWT para el usuario recién registrado
             $token = JWTAuth::fromUser($user);
             $user->update(['state' => 'auth']);
 
+            // Respuesta JSON con información del usuario y el token
             return response()->json([
                 'user' => $user,
                 'token' => $token,
             ], 201);
         } catch (\Exception $e) {
+            // Manejo de excepciones en caso de error
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    // Validación digito verificador (Modulo 11)
+    /**
+     * Validación del dígito verificador del RUT (Módulo 11).
+     *
+     * @param  string  $rut
+     * @param  mixed  $value
+     * @param  \Closure  $fail
+     * @return mixed
+     */
     public function validateRut($rut, $value, $fail)
     {
-        // Limpiar el rut de puntos y guión
+        // Limpiar el RUT de puntos y guión
         $cleanedRut = preg_replace('/[^0-9kK]/', '', $rut);
 
         // Verificar la longitud del RUT
         $rutLength = strlen($cleanedRut);
 
         if ($rutLength == 9 || $rutLength == 8) {
-            // Obtenemos el digito y el body
+            // Obtenemos el dígito y el cuerpo del RUT
             $digit = substr($cleanedRut, -1);
             $body = substr($cleanedRut, 0, -1);
 
-            // Invertir la cadena
+            // Invertir la cadena del cuerpo del RUT
             $bodyInverted = strrev($body);
 
-            // Definimos lo multipliers y la suma
-            $mult = [2,3,4,5,6,7];
+            // Definir los multiplicadores y la suma
+            $mult = [2, 3, 4, 5, 6, 7];
             $sum = 0;
 
-            //Calculo del digit calculado
-            for($i = 0; $i < strlen($bodyInverted); $i++){
+            // Cálculo del dígito verificador
+            for ($i = 0; $i < strlen($bodyInverted); $i++) {
                 $sum += $bodyInverted[$i] * $mult[$i % count($mult)];
                 $rest = $sum / 11;
             }
             $digitCalculated = 11 - ($sum - (floor($rest) * 11));
 
-            // Validar que el digito calculado no sea 10
-            if ($digitCalculated == 10){
+            // Validar que el dígito calculado no sea 10
+            if ($digitCalculated == 10) {
                 $cleanedRut = substr_replace($cleanedRut, 'k', -1);
                 $digitCalculated = 'k';
             }
-            // Validar que el digito calculado no sea 11
-            else if($digitCalculated == 11){
+            // Validar que el dígito calculado no sea 11
+            else if ($digitCalculated == 11) {
                 $cleanedRut = substr_replace($cleanedRut, '0', -1);
                 $digitCalculated = '0';
             }
 
-            //Si el digito calculado no es igual al digito es inválido el RUT.
+            // Si el dígito calculado no es igual al dígito ingresado, el RUT es inválido
             if ($digitCalculated != $digit) {
                 $fail('El RUT proporcionado no es válido.');
             }
-            //Si el digito calculado es igual al digito es válido el RUT y lo retorna.
+            // Si el dígito calculado es igual al dígito ingresado, el RUT es válido y se retorna
             else {
                 $cleanedRut = substr($cleanedRut, 0, -1);
                 return $cleanedRut;
@@ -94,9 +121,16 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Inicio de sesión del usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
         try {
+            // Validación de datos de inicio de sesión
             $messages = validationMessages();
             $this->validate($request, [
                 'email' => [
@@ -108,48 +142,102 @@ class AuthController extends Controller
                 'password' => 'string|required|min:7',
             ], $messages);
 
+            // Obtener las credenciales del usuario
             $credentials = $request->only('email', 'password');
 
+            // Verificar las credenciales y generar el token JWT
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'Credenciales inválidas'], 401);
             }
 
-            // Obtener usuario autenticado
+            // Obtener el usuario autenticado
             $user = JWTAuth::user();
             $user->update(['state' => 'auth']);
             $email = $request->input('email');
 
+            // Respuesta JSON con información del inicio de sesión
             return response()->json([
                 'success' => 'Inicio de sesión exitoso',
                 'email' => $email,
                 'token' => $token,
             ], 200);
         } catch (\Exception $e) {
+            // Manejo de excepciones en caso de error
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
+    /**
+     * Cierre de sesión del usuario.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout()
     {
         try {
             // Invalidar el token actual del usuario
             JWTAuth::invalidate(JWTAuth::getToken());
 
-            // Obtener usuario autenticado
+            // Obtener el usuario autenticado
             $user = JWTAuth::user();
             if ($user) {
                 $user->update(['state' => 'guest']);
             }
 
+            // Respuesta JSON con información del cierre de sesión
             return response()->json([
                 'success' => 'Cierre de sesión exitoso',
             ], 200);
         } catch (JWTException $e) {
+            // Manejo de excepciones en caso de error al cerrar sesión
             return response()->json([
                 'error' => 'No se pudo cerrar sesión',
             ], 500);
         }
     }
 
-    public function updatePassword(){}
+    /**
+     * Actualización de la contraseña del usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updatePassword(Request $request)
+    {
+        try {
+            // Validación de datos para la actualización de la contraseña
+            $messages = validationMessages();
+            $this->validate($request, [
+                'current_password' => 'required|string|min:7',
+                'new_password' => 'required|string|min:7|different:current_password',
+                'confirm_password' => 'required|string|min:7|same:new_password',
+            ], $messages);
+
+            // Obtener el usuario autenticado
+            $user = JWTAuth::user();
+
+            // Verificar si el usuario está autenticado
+            if (!$user) {
+                return response()->json(['error' => 'Usuario no autenticado'], 401);
+            }
+
+            // Verificar si la contraseña actual proporcionada coincide con la almacenada
+            if (!password_verify($request->input('current_password'), $user->password)) {
+                return response()->json(['error' => 'La contraseña actual no es válida.'], 401);
+            }
+
+            // Actualizar la contraseña del usuario con la nueva contraseña utilizando bcrypt
+            $user->update([
+                'password' => bcrypt($request->input('new_password')),
+            ]);
+
+            // Respuesta JSON con información de la actualización exitosa de la contraseña
+            return response()->json([
+                'success' => 'Contraseña actualizada exitosamente',
+            ], 200);
+        } catch (\Exception $e) {
+            // Manejo de excepciones en caso de error
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }
