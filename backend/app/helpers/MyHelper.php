@@ -10,7 +10,7 @@ function registerValidationMessages()
         'full_name.min' => 'El campo Nombre completo debe tener al menos :min caracteres.',
         'full_name.max' => 'El campo Nombre completo no puede tener más de :max caracteres.',
         'email.required' => 'El campo Correo electrónico es obligatorio.',
-        'email.email' => 'El formato del Correo electrónico no es válido.',
+        'email.regex' => 'El formato del Correo electrónico no es válido.',
         'email.ends_with' => 'El Correo electrónico debe terminar con uno de los dominios permitidos.',
         'email.unique' => 'El Correo electrónico ya está registrado.',
         'year.required' => 'El campo Año de nacimiento es obligatorio.',
