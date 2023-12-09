@@ -4,34 +4,39 @@ namespace App\Http\Controllers\auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
-
+    public function register(Request $request)
+    {
         try {
-            $messages = registerValidationMessages();
+            $messages = validationMessages();
             $this->validate($request,[
-                'rut' => ['required','unique:users,rut','regex:/^\d{1,2}\.\d{3}\.\d{3}\-[0-9kK]$/',
+                'rut' => ['required','string','unique:users,rut','regex:/^\d{1,2}\.\d{3}\.\d{3}\-[0-9kK]$/',
                 function ($attribute, $value, $fail) use ($request) {$this->validateRut($request->rut, $value, $fail);},],
-                'full_name'=> 'required|min:10|max:150',
-                'email' => 'required|regex:/^[^@]+@[^@.]+.[^@]+$/|ends_with:ucn.cl,alumnos.ucn.cl,disc.ucn.cl,ce.ucn.cl|unique:users,email',
-                'year' => 'required|min:4|integer|between:1900,' . date('Y'),
+                'full_name'=> 'required|string|min:10|max:150',
+                'email' => 'required|string|regex:/^[^@]+@[^@.]+.[^@]+$/|ends_with:ucn.cl,alumnos.ucn.cl,disc.ucn.cl,ce.ucn.cl|unique:users,email',
+                'year' => 'required|integer|min:4|integer|between:1900,' . date('Y'),
             ], $messages);
 
             $cleanedRut = $this->validateRut($request->rut, $request->rut, function () {});
-
             $user = User::create([
                 'rut' => $request->rut,
                 'full_name' => $request->full_name,
                 'email' => $request->email,
-                'password' => bcrypt($cleanedRut), // Utilizar el RUT modificado como contraseña
+                'password' => $cleanedRut, // Utilizar el RUT modificado como contraseña
                 'year' => $request->year,
             ]);
 
+            $token = JWTAuth::fromUser($user);
+            $user->update(['state' => 'auth']);
+
             return response()->json([
-                'user' => $user
+                'user' => $user,
+                'token' => $token,
             ], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -89,7 +94,62 @@ class AuthController extends Controller
         }
     }
 
-    public function login(){}
+    public function login(Request $request)
+    {
+        try {
+            $messages = validationMessages();
+            $this->validate($request, [
+                'email' => [
+                    'string',
+                    'required',
+                    'regex:/^[^@]+@[^@.]+.[^@]+$/',
+                    'exists:users,email',
+                ],
+                'password' => 'string|required|min:7',
+            ], $messages);
 
-    public function logout(){}
+            $credentials = $request->only('email', 'password');
+
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'Credenciales inválidas'], 401);
+            }
+
+            // Obtener usuario autenticado
+            $user = JWTAuth::user();
+            $user->update(['state' => 'auth']);
+            $email = $request->input('email');
+
+            return response()->json([
+                'success' => 'Inicio de sesión exitoso',
+                'email' => $email,
+                'token' => $token,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function logout()
+    {
+        try {
+            // Invalidar el token actual del usuario
+            JWTAuth::invalidate(JWTAuth::getToken());
+
+            // Obtener usuario autenticado
+            $user = JWTAuth::user();
+            if ($user) {
+                $user->update(['state' => 'guest']);
+            }
+
+            return response()->json([
+                'success' => 'Cierre de sesión exitoso',
+            ], 200);
+        } catch (JWTException $e) {
+            return response()->json([
+                'error' => 'No se pudo cerrar sesión',
+            ], 500);
+        }
+    }
+
+    public function updatePassword(){}
 }
