@@ -1,20 +1,15 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <div class="flex-center">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="card-title">MobileHub</ion-card-title>
+        <img class="logo-img" src="assets/img/mobilehub.png" alt="Logo" class="logo-img">
+      </ion-card-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+      <ion-card-content scroll-y="false">
+        <ion-button shape="round" size="full" [routerLink]="['/login']" color="dark">Iniciar Sesión</ion-button>
+        <ion-button shape="round" size="full" [routerLink]="['/register']" color="dark" fill="clear">Registrarse</ion-button>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>
