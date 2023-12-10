@@ -29,18 +29,11 @@ export class RegisterPage implements OnInit {
   async onSubmit() {
     try {
       const message = await this.ApiService.register(this.form.value);
-      console.log(this.ApiService.register(this.form.value));
+      console.log(message);
       localStorage.setItem('token', message.token);
       this.router.navigate(['/menu']);
     } catch (error:any) {
-      if (error instanceof Error) {
-        console.log('Error:', error.message);
-      } else if (error.status === 400) {
-        // Aquí puedes manejar errores de validación específicos del servidor
-        console.log('Error de validación del servidor:', error.error);
-      } else {
-        console.log('Error desconocido:', error);
-      }
+      console.error('Credenciales inválidas.', error);
     }
   }
 

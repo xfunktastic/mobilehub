@@ -22,7 +22,7 @@ export class LoginPage implements OnInit{
   async onSubmit() {
     try {
       const message = await this.ApiService.login(this.form.value);
-      console.log(this.ApiService.login(this.form.value));
+      console.log(message);
       localStorage.setItem('token', message.token);
       this.router.navigate(['/menu']);
 
