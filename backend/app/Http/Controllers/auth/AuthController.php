@@ -50,7 +50,6 @@ class AuthController extends Controller
 
             // Generación de token JWT para el usuario recién registrado
             $token = JWTAuth::fromUser($user);
-            $user->update(['state' => 'auth']);
 
             // Respuesta JSON con información del usuario y el token
             return response()->json([
@@ -138,8 +137,6 @@ class AuthController extends Controller
             }
 
             // Obtener el usuario autenticado
-            $user = JWTAuth::user();
-            $user->update(['state' => 'auth']);
             $email = $request->input('email');
 
             // Respuesta JSON con información del inicio de sesión
@@ -164,12 +161,6 @@ class AuthController extends Controller
         try {
             // Invalidar el token actual del usuario
             JWTAuth::invalidate(JWTAuth::getToken());
-
-            // Obtener el usuario autenticado
-            $user = JWTAuth::user();
-            if ($user) {
-                $user->update(['state' => 'guest']);
-            }
 
             // Respuesta JSON con información del cierre de sesión
             return response()->json([

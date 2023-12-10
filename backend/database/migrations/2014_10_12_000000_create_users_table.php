@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('year');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('state')->default('guest');
             $table->timestamps();
         });
     }
