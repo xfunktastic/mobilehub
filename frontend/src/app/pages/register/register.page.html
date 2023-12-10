@@ -4,30 +4,31 @@
       <ion-card-header>
         <ion-card-title class="card-title">Registrar</ion-card-title>
       </ion-card-header>
-
-      <ion-card-content scroll-y="false">
-        <ion-list>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <ion-card-content scroll-y="false">
           <ion-list>
-            <ion-item>
-              <ion-label position="floating">RUT</ion-label>
-              <ion-input type="text"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Nombre completo</ion-label>
-              <ion-input type="text"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Email</ion-label>
-              <ion-input type="email"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Año de nacimiento</ion-label>
-              <ion-input type="number" min="1900" [max]="currentYear"></ion-input>
-            </ion-item>
+            <ion-list>
+              <ion-item>
+                <ion-label position="floating">RUT</ion-label>
+                <ion-input formControlName="rut" name="rut" type="text"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Nombre completo</ion-label>
+                <ion-input formControlName="full_name" name="full_name" type="text"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input formControlName="email" name="email" type="email"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Año de nacimiento</ion-label>
+                <ion-input formControlName="year" name="year" type="number" min="1900" [max]="currentYear"></ion-input>
+              </ion-item>
+            </ion-list>
           </ion-list>
-        </ion-list>
-        <ion-button shape="round" size="full" color="dark">Enviar</ion-button>
-      </ion-card-content>
+          <ion-button type="submit" class="custom-button" size="full">Enviar</ion-button>
+        </ion-card-content>
+      </form>
     </ion-card>
   </div>
 </ion-content>

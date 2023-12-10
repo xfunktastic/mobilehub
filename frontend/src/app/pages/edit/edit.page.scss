@@ -1,0 +1,27 @@
+ion-content{
+  --background: #2b3137;
+}
+
+ion-button[color="dark"]{
+  text-transform: initial;
+}
+
+.card-title {
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  font-size: 36px;
+}
+
+ion-card {
+  width: 80%;
+  height: auto; // Ajusta la altura automáticamente según el contenido
+  margin: auto;
+  text-align: center;
+  border-radius: 10px; // Añade esquinas redondeadas
+}
+
+ion-button[color="dark"][role="button"]:hover {
+  background-color: #222428;
+  color: white;
+}

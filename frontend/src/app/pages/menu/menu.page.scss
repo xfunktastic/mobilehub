@@ -1,0 +1,12 @@
+.flex-center-menu{
+  display: flex;
+  flex-direction: column; /* Agrega esta línea para cambiar la dirección del eje principal a columna */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  }
+
+ion-button{
+  width: 80%;
+}
+

@@ -31,3 +31,10 @@
   align-items: center;
   height: 100%;
 }
+
+ion-toolbar,
+.menu-header > ion-toolbar{
+  --background: #24292e;
+  --color: white;
+}
+

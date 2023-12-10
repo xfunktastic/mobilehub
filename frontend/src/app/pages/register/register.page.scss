@@ -3,7 +3,7 @@ ion-button[color="dark"]{
 }
 
 ion-content{
-  --background: #171515;
+  --background: #2b3137;
 }
 
 .card-title {
@@ -21,7 +21,7 @@ ion-card {
   border-radius: 10px; // Añade esquinas redondeadas
 }
 
-ion-button[color="dark"][role="button"]:hover {
-  background-color: #222428;
-  color: white;
+.custom-button {
+  background-color: #24292e; // Cambia este valor al color que desees
+  color: white; // Cambia este valor al color del texto que desees
 }

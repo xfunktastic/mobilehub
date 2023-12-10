@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { loginGuard } from './guard/login.guard';
 
 const routes: Routes = [
   {
@@ -21,7 +22,18 @@ const routes: Routes = [
   },
   {
     path: 'edit',
-    loadChildren: () => import('./pages/edit/edit.module').then( m => m.EditPageModule)
+    loadChildren: () => import('./pages/edit/edit.module').then( m => m.EditPageModule),
+    canActivate: [loginGuard]
+  },
+  {
+    path: 'password',
+    loadChildren: () => import('./pages/password/password.module').then( m => m.PasswordPageModule),
+    canActivate: [loginGuard]
+  },
+  {
+    path: 'menu',
+    loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule),
+    canActivate: [loginGuard]
   },
 ];
 
