@@ -129,18 +129,6 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         try {
-            // Validación de datos de inicio de sesión
-            $messages = validationMessages();
-            $this->validate($request, [
-                'email' => [
-                    'string',
-                    'required',
-                    'regex:/^[^@]+@[^@.]+.[^@]+$/',
-                    'exists:users,email',
-                ],
-                'password' => 'string|required|min:8',
-            ], $messages);
-
             // Obtener las credenciales del usuario
             $credentials = $request->only('email', 'password');
 
@@ -162,7 +150,7 @@ class AuthController extends Controller
             ], 200);
         } catch (\Exception $e) {
             // Manejo de excepciones en caso de error
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Credenciales inválidas'], 500);
         }
     }
 
