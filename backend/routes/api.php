@@ -29,12 +29,6 @@ Route::middleware(['jwt'])->group(function()
     // Actualizar Contraseña
     Route::put('/update-password', [AuthController::class, 'updatePassword']);
 
-    // //Ver repositorios
-    // Route::get('/users/', [UserController::class, 'edit']);
-
-    // //Ver commits de un repositorio
-    // Route::get('/users/', [UserController::class, 'edit']);
-
     // Editar usuario
     Route::put('/profile/edit', [UserController::class, 'edit']);
 });
