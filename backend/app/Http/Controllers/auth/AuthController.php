@@ -115,7 +115,6 @@ class AuthController extends Controller
             }
             // Si el dígito calculado es igual al dígito ingresado, el RUT es válido y se retorna
             else {
-                $cleanedRut = substr($cleanedRut, 0, -1);
                 return $cleanedRut;
             }
         }
@@ -139,7 +138,7 @@ class AuthController extends Controller
                     'regex:/^[^@]+@[^@.]+.[^@]+$/',
                     'exists:users,email',
                 ],
-                'password' => 'string|required|min:7',
+                'password' => 'string|required|min:8',
             ], $messages);
 
             // Obtener las credenciales del usuario
@@ -208,9 +207,9 @@ class AuthController extends Controller
             // Validación de datos para la actualización de la contraseña
             $messages = validationMessages();
             $this->validate($request, [
-                'current_password' => 'required|string|min:7',
-                'new_password' => 'required|string|min:7|different:current_password',
-                'confirm_password' => 'required|string|min:7|same:new_password',
+                'current_password' => 'required|string|min:8',
+                'new_password' => 'required|string|min:8|different:current_password',
+                'confirm_password' => 'required|string|min:8|same:new_password',
             ], $messages);
 
             // Obtener el usuario autenticado
