@@ -8,7 +8,7 @@ import { ApiService } from '../../services/api.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit{
+export class LoginPage{
 
   form:FormGroup;
 
@@ -27,14 +27,12 @@ export class LoginPage implements OnInit{
         this.form.reset();
         this.router.navigate(['/menu']);
     } catch (error: any) {
-
       // Setear el error general en el formulario
       if (error.error) {
         // Manejar errores generales del servidor
         const serverError = error.error.error;
         this.form.setErrors({ serverError: serverError });
       }
-
       if (error.error?.errors) {
         const errorObject = error.error.errors;
         // Iterar sobre las claves del objeto de errores
@@ -48,9 +46,4 @@ export class LoginPage implements OnInit{
       }
     }
   }
-
-  ngOnInit(){
-
-  }
-
 }

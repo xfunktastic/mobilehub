@@ -39,6 +39,9 @@
             </ion-list>
           </ion-list>
           <ion-button type="submit" shape="round" color="dark" size="full">Registrarse</ion-button>
+          <ion-card class="error-message" color="danger" *ngIf="form.hasError('serverError')">
+            <ion-card-content><strong>ERROR: </strong>{{ form.getError('serverError') }}</ion-card-content>
+          </ion-card>
         </ion-card-content>
       </form>
     </ion-card>

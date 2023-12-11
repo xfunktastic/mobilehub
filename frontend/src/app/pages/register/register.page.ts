@@ -9,7 +9,7 @@ import { ApiService } from '../../services/api.service';
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage {
   //Obtener año actual
   currentYear: number = new Date().getFullYear();
   //Crear form group
@@ -29,8 +29,15 @@ export class RegisterPage implements OnInit {
     try {
       const message = await this.ApiService.register(this.form.value);
       localStorage.setItem('token', message.token);
+      this.form.reset();
       this.router.navigate(['/menu']);
     } catch (error:any) {
+      // Setear el error general en el formulario
+      if (error.error) {
+        // Manejar errores generales del servidor
+        const serverError = error.error.error;
+        this.form.setErrors({ serverError: serverError });
+      }
       if (error.error?.errors) {
         const errorObject = error.error.errors;
         // Iterar sobre las claves del objeto de errores
@@ -44,9 +51,4 @@ export class RegisterPage implements OnInit {
       }
     }
   }
-
-  ngOnInit() {
-    this.form;
-  }
-
 }
