@@ -34,7 +34,7 @@ export class LoginPage implements OnInit{
         this.form.setErrors({ serverError: serverError });
       }
 
-      else if (error.error?.errors) {
+      if (error.error?.errors) {
         const errorObject = error.error.errors;
         // Iterar sobre las claves del objeto de errores
         Object.keys(errorObject).forEach((fieldName) => {

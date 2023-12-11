@@ -22,19 +22,6 @@ export class PasswordPage implements OnInit {
   }
 
   async onSubmit() {
-    if (this.form.valid) {
-      const formData = this.form.value;
-
-      try {
-        // Llama al método del servicio API para cambiar la contraseña usando PUT
-        const response = await this.ApiService.changePassword(formData);
-        // Maneja la respuesta exitosa, si es necesario
-        console.log('Contraseña cambiada con éxito', response);
-      } catch (error) {
-        // Maneja el error, si es necesario
-        console.error('Error al cambiar la contraseña', error);
-      }
-    }
   }
 
   ngOnInit() {
