@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -56,8 +57,11 @@ class AuthController extends Controller
                 'user' => $user,
                 'token' => $token,
             ], 201);
+        } catch (ValidationException $e) {
+            // Error de validación
+            return response()->json(['error' => $e->errors()], 422);
         } catch (\Exception $e) {
-            // Manejo de excepciones en caso de error
+            // Excepción general
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -125,18 +129,25 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function login(Request $request)
     {
         try {
+            // Validación de campos requeridos
+            $messages = validationMessages();
+            $this->validate($request, [
+                'email' => 'required|regex:/^[^@]+@[^@.]+\.[^@]+$/',
+                'password' => 'required|min:8',
+            ], $messages);
+
             // Obtener las credenciales del usuario
             $credentials = $request->only('email', 'password');
 
-            // Verificar las credenciales y generar el token JWT
+            // Verificar las credenciales
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'Credenciales inválidas'], 401);
             }
 
-            // Obtener el usuario autenticado
             $email = $request->input('email');
 
             // Respuesta JSON con información del inicio de sesión
@@ -145,9 +156,13 @@ class AuthController extends Controller
                 'email' => $email,
                 'token' => $token,
             ], 200);
+        } catch (ValidationException $e) {
+            // Error de validación
+            $errors = $e->validator->errors()->getMessages();
+            return response()->json(['errors' => $errors], 422);
         } catch (\Exception $e) {
-            // Manejo de excepciones en caso de error
-            return response()->json(['error' => 'Credenciales inválidas'], 500);
+            // Excepción general
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -186,9 +201,9 @@ class AuthController extends Controller
             // Validación de datos para la actualización de la contraseña
             $messages = validationMessages();
             $this->validate($request, [
-                'current_password' => 'required|string|min:8',
+                'current_password' => 'required|string',
                 'new_password' => 'required|string|min:8|different:current_password',
-                'confirm_password' => 'required|string|min:8|same:new_password',
+                'confirm_password' => 'required|string|same:new_password',
             ], $messages);
 
             // Obtener el usuario autenticado
@@ -213,9 +228,14 @@ class AuthController extends Controller
             return response()->json([
                 'success' => 'Contraseña actualizada exitosamente',
             ], 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Error de validación
+            $errors = $e->validator->errors()->getMessages();
+            return response()->json(['errors' => $errors], 422);
         } catch (\Exception $e) {
-            // Manejo de excepciones en caso de error
+            // Excepción general
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 }
