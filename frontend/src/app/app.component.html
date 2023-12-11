@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item>
+        <ion-item [routerLink]="['repositories/dizkm8']">
           <ion-icon name="repository" slot="repository"></ion-icon>
           <ion-label>Ver repositorios</ion-label>
         </ion-item>
@@ -15,11 +15,11 @@
           <ion-icon name="commits" slot="commits"></ion-icon>
           <ion-label>Ver commits de un repositorio</ion-label>
         </ion-item>
-        <ion-item [routerLink]="['/edit']">
+        <ion-item [routerLink]="['/profile/edit']">
           <ion-icon name="edit" slot="edit"></ion-icon>
           <ion-label>Editar perfil</ion-label>
         </ion-item>
-        <ion-item [routerLink]="['/password']">
+        <ion-item [routerLink]="['/profile/update-password']">
           <ion-icon name="password" slot="password"></ion-icon>
           <ion-label>Actualizar contraseña</ion-label>
         </ion-item>

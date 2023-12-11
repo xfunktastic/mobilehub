@@ -10,9 +10,12 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  //Mensaje de error
+  errorMessage: string = "";
+
   //Obtener año actual
   currentYear: number = new Date().getFullYear();
-
+  //Crear form group
   form:FormGroup;
 
 
@@ -34,10 +37,12 @@ export class RegisterPage implements OnInit {
       this.router.navigate(['/menu']);
     } catch (error:any) {
       console.error('Credenciales inválidas.', error);
+      this.errorMessage = error.error.full_name;
     }
   }
 
   ngOnInit() {
+    this.form;
   }
 
 }

@@ -21,18 +21,23 @@ const routes: Routes = [
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
   {
-    path: 'edit',
+    path: 'profile/edit',
     loadChildren: () => import('./pages/edit/edit.module').then( m => m.EditPageModule),
     canActivate: [loginGuard]
   },
   {
-    path: 'password',
+    path: 'profile/update-password',
     loadChildren: () => import('./pages/password/password.module').then( m => m.PasswordPageModule),
     canActivate: [loginGuard]
   },
   {
     path: 'menu',
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule),
+    canActivate: [loginGuard]
+  },
+  {
+    path: 'repositories/dizkm8',
+    loadChildren: () => import('./pages/repository/repository.module').then( m => m.RepositoryPageModule),
     canActivate: [loginGuard]
   },
 ];

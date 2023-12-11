@@ -2,6 +2,11 @@ ion-button[color="dark"]{
   text-transform: initial;
 }
 
+ion-button[fill="clear"]{
+  text-transform: initial;
+  color: black;
+}
+
 ion-content{
   --background: #2b3137;
 }

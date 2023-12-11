@@ -1,8 +1,4 @@
-ion-button[color="dark"]{
-  text-transform: initial;
-}
-
-ion-content{
+ion-content {
   --background: #2b3137;
 }
 
@@ -14,14 +10,31 @@ ion-content{
 }
 
 ion-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
   width: 80%;
-  height: auto; // Ajusta la altura automáticamente según el contenido
+  height: auto;
   margin: auto;
   text-align: center;
-  border-radius: 10px; // Añade esquinas redondeadas
+  border-radius: 10px;
 }
 
-.custom-button {
-  background-color: #24292e; // Cambia este valor al color que desees
-  color: white; // Cambia este valor al color del texto que desees
+.error-message {
+  margin-top: 5px;
+  width: 100%; /* Add this line to make the error message extend horizontally */
+  text-align: center; /* Optional: Center the text within the error message */
+}
+
+ion-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ion-item {
+  width: 100%;
+  max-width: 400px;
 }
