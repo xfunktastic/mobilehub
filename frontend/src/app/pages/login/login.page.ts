@@ -24,6 +24,7 @@ export class LoginPage implements OnInit{
       try {
         const message = await this.ApiService.login(this.form.value);
         localStorage.setItem('token', message.token);
+        this.form.reset();
         this.router.navigate(['/menu']);
     } catch (error: any) {
 
