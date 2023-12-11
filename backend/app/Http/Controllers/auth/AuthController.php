@@ -59,10 +59,10 @@ class AuthController extends Controller
             ], 201);
         } catch (ValidationException $e) {
             // Error de validación
-            return response()->json(['error' => $e->errors()], 422);
+            return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
             // Excepción general
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['errors' => $e->getMessage()], 500);
         }
     }
 
