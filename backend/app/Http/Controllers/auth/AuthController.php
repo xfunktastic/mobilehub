@@ -23,6 +23,9 @@ class AuthController extends Controller
             // Validación de datos ingresados
             $messages = validationMessages();
             $this->validate($request, [
+                'full_name' => 'required|string|min:10|max:150',
+                'email' => 'required|string|regex:/^[^@]+@[^@.]+.[^@]+$/|ends_with:ucn.cl,alumnos.ucn.cl,disc.ucn.cl,ce.ucn.cl|unique:users,email',
+                'year' => 'required|numeric|min:1900|max:' . (int)date('Y'),
                 'rut' => [
                     'required',
                     'string',
@@ -32,9 +35,7 @@ class AuthController extends Controller
                         $this->validateRut($request->rut, $value, $fail);
                     },
                 ],
-                'full_name' => 'required|string|min:10|max:150',
-                'email' => 'required|string|regex:/^[^@]+@[^@.]+.[^@]+$/|ends_with:ucn.cl,alumnos.ucn.cl,disc.ucn.cl,ce.ucn.cl|unique:users,email',
-                'year' => 'required|integer|min:4|integer|between:1900,' . date('Y'),
+
             ], $messages);
 
             // Validación y limpieza del RUT
