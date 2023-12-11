@@ -9,7 +9,6 @@ import { Route, Router } from '@angular/router';
 export class ApiService {
 
   private url:string = 'http://127.0.0.1:8000/api';
-  private state: string = '';
 
   constructor(private http:HttpClient, private router:Router){}
 
@@ -31,11 +30,6 @@ export class ApiService {
   logout(){
     localStorage.removeItem('token');
     this.router.navigate(['/home']);
-  }
-
-  //Editar perfil
-  edit(formValue:any){
-    return firstValueFrom(this.http.put<any>(this.url+'/profile/edit',formValue));
   }
 
 }

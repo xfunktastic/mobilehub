@@ -15,29 +15,38 @@ export class LoginPage implements OnInit{
   constructor(public formBuilder: FormBuilder, private ApiService:ApiService, private router: Router)
   {
     this.form = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]]});
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
   }
 
   async onSubmit() {
-    try {
-      const message = await this.ApiService.login(this.form.value);
-      localStorage.setItem('token', message.token);
-      this.router.navigate(['/menu']);
-  } catch (error: any) {
-    if (error.error?.errors) {
-      const errorObject = error.error.errors;
-      // Iterar sobre las claves del objeto de errores
-      Object.keys(errorObject).forEach((fieldName) => {
-        const formControl = this.form.get(fieldName);
-        // Verificar si el campo existe en el formulario
-        if (formControl) {
-          formControl.setErrors({ serverError: errorObject[fieldName][0] });
-        }
-      });
+      try {
+        const message = await this.ApiService.login(this.form.value);
+        localStorage.setItem('token', message.token);
+        this.router.navigate(['/menu']);
+    } catch (error: any) {
+
+      // Setear el error general en el formulario
+      if (error.error) {
+        // Manejar errores generales del servidor
+        const serverError = error.error.error;
+        this.form.setErrors({ serverError: serverError });
+      }
+
+      else if (error.error?.errors) {
+        const errorObject = error.error.errors;
+        // Iterar sobre las claves del objeto de errores
+        Object.keys(errorObject).forEach((fieldName) => {
+          const formControl = this.form.get(fieldName);
+          // Verificar si el campo existe en el formulario
+          if (formControl) {
+            formControl.setErrors({ serverError: errorObject[fieldName][0] });
+          }
+        });
+      }
     }
   }
-}
 
   ngOnInit(){
 

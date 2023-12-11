@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+//Importar Forms module, ReactiveFormsModule
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,7 +14,9 @@ import { PasswordPage } from './password.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PasswordPageRoutingModule
+    PasswordPageRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   declarations: [PasswordPage]
 })

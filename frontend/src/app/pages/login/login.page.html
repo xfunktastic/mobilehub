@@ -21,6 +21,9 @@
             <ion-card-content><strong>ERROR: </strong>{{ form.get('password')?.getError('serverError') }}</ion-card-content>
           </ion-card>
           <ion-button type="submit" shape="round" size="full" color="dark">Ingresar</ion-button>
+          <ion-card class="error-message" color="danger" *ngIf="form.hasError('serverError')">
+            <ion-card-content><strong>ERROR: </strong>{{ form.getError('serverError') }}</ion-card-content>
+          </ion-card>
         </ion-card-content>
       </form>
     </ion-card>
