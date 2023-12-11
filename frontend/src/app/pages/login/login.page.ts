@@ -22,14 +22,22 @@ export class LoginPage implements OnInit{
   async onSubmit() {
     try {
       const message = await this.ApiService.login(this.form.value);
-      console.log(message);
       localStorage.setItem('token', message.token);
       this.router.navigate(['/menu']);
-
   } catch (error: any) {
-      console.error('Credenciales inválidas.', error);
+    if (error.error?.errors) {
+      const errorObject = error.error.errors;
+      // Iterar sobre las claves del objeto de errores
+      Object.keys(errorObject).forEach((fieldName) => {
+        const formControl = this.form.get(fieldName);
+        // Verificar si el campo existe en el formulario
+        if (formControl) {
+          formControl.setErrors({ serverError: errorObject[fieldName][0] });
+        }
+      });
     }
   }
+}
 
   ngOnInit(){
 

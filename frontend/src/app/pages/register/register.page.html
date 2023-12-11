@@ -2,7 +2,7 @@
   <div class="flex-center">
     <ion-card>
       <ion-card-header>
-        <ion-card-title class="card-title">Registrar</ion-card-title>
+        <ion-card-title class="card-title">Registrate</ion-card-title>
       </ion-card-header>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <ion-card-content scroll-y="false">
@@ -12,33 +12,33 @@
                 <ion-label position="floating">RUT</ion-label>
                 <ion-input formControlName="rut" name="rut" type="text"></ion-input>
               </ion-item>
-              <ion-card class="error-message" color="danger" *ngIf="errorMessage">
-                <ion-card-content><strong>ERROR: </strong>{{ errorMessage }}</ion-card-content>
+              <ion-card class="error-message" color="danger" *ngIf="form.get('rut')?.hasError('serverError')">
+                <ion-card-content><strong>ERROR: </strong>{{ form.get('rut')?.getError('serverError') }}</ion-card-content>
               </ion-card>
               <ion-item>
                 <ion-label position="floating">Nombre completo</ion-label>
                 <ion-input formControlName="full_name" name="full_name" type="text"></ion-input>
               </ion-item>
-              <ion-card class="error-message" color="danger" *ngIf="errorMessage">
-                <ion-card-content><strong>ERROR: </strong>{{ errorMessage }}</ion-card-content>
+              <ion-card class="error-message" color="danger" *ngIf="form.get('full_name')?.hasError('serverError')">
+                <ion-card-content><strong>ERROR: </strong>{{ form.get('full_name')?.getError('serverError') }}</ion-card-content>
               </ion-card>
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
                 <ion-input formControlName="email" name="email" type="email"></ion-input>
               </ion-item>
-              <ion-card class="error-message" color="danger" *ngIf="errorMessage">
-                <ion-card-content><strong>ERROR: </strong>{{ errorMessage }}</ion-card-content>
+              <ion-card class="error-message" color="danger" *ngIf="form.get('email')?.hasError('serverError')">
+                <ion-card-content><strong>ERROR: </strong>{{ form.get('email')?.getError('serverError') }}</ion-card-content>
               </ion-card>
               <ion-item>
                 <ion-label position="floating">Año de nacimiento</ion-label>
-                <ion-input formControlName="year" name="year" type="number" min="1900" value="1900" [max]="currentYear"></ion-input>
+                <ion-input formControlName="year" name="year" type="number" min="1900" [max]="currentYear"></ion-input>
               </ion-item>
-              <ion-card class="error-message" color="danger" *ngIf="errorMessage">
-                <ion-card-content><strong>ERROR: </strong>{{ errorMessage }}</ion-card-content>
+              <ion-card class="error-message" color="danger" *ngIf="form.get('year')?.hasError('serverError')">
+                <ion-card-content><strong>ERROR: </strong>{{ form.get('year')?.getError('serverError') }}</ion-card-content>
               </ion-card>
             </ion-list>
           </ion-list>
-          <ion-button type="submit" shape="round" color="dark" size="full">Enviar</ion-button>
+          <ion-button type="submit" shape="round" color="dark" size="full">Registrarse</ion-button>
         </ion-card-content>
       </form>
     </ion-card>

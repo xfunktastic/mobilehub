@@ -26,4 +26,10 @@ ion-button[color="dark"][role="button"]:hover {
   color: white;
 }
 
+.error-message {
+  margin-top: 5px;
+  width: 100%; /* Add this line to make the error message extend horizontally */
+  text-align: center; /* Optional: Center the text within the error message */
+}
+
 

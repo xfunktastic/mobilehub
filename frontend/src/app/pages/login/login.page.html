@@ -9,27 +9,18 @@
           <ion-item>
             <ion-label position="floating">Email</ion-label>
             <ion-input formControlName="email" name="email" type="email"></ion-input>
-
-            <ion-card *ngIf="">
-              <ion-card-content>
-
-              </ion-card-content>
-            </ion-card>
-
           </ion-item>
+          <ion-card class="error-message" color="danger" *ngIf="form.get('email')?.hasError('serverError')">
+            <ion-card-content><strong>ERROR: </strong>{{ form.get('email')?.getError('serverError') }}</ion-card-content>
+          </ion-card>
           <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input formControlName="password" name="password" type="password"></ion-input>
-
-            <ion-card *ngIf="">
-              <ion-card-content>
-
-              </ion-card-content>
-            </ion-card>
-
-
           </ion-item>
-          <ion-button type="submit" shape="round" size="full" color="dark">Iniciar Sesión</ion-button>
+          <ion-card class="error-message" color="danger" *ngIf="form.get('password')?.hasError('serverError')">
+            <ion-card-content><strong>ERROR: </strong>{{ form.get('password')?.getError('serverError') }}</ion-card-content>
+          </ion-card>
+          <ion-button type="submit" shape="round" size="full" color="dark">Ingresar</ion-button>
         </ion-card-content>
       </form>
     </ion-card>

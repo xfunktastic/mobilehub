@@ -10,14 +10,10 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  //Mensaje de error
-  errorMessage: string = "";
-
   //Obtener año actual
   currentYear: number = new Date().getFullYear();
   //Crear form group
   form:FormGroup;
-
 
   constructor(public formBuilder: FormBuilder, private ApiService:ApiService, private router: Router)
   {
@@ -32,12 +28,20 @@ export class RegisterPage implements OnInit {
   async onSubmit() {
     try {
       const message = await this.ApiService.register(this.form.value);
-      console.log(message);
       localStorage.setItem('token', message.token);
       this.router.navigate(['/menu']);
     } catch (error:any) {
-      console.error('Credenciales inválidas.', error);
-      this.errorMessage = error.error.full_name;
+      if (error.error?.errors) {
+        const errorObject = error.error.errors;
+        // Iterar sobre las claves del objeto de errores
+        Object.keys(errorObject).forEach((fieldName) => {
+          const formControl = this.form.get(fieldName);
+          // Verificar si el campo existe en el formulario
+          if (formControl) {
+            formControl.setErrors({ serverError: errorObject[fieldName][0] });
+          }
+        });
+      }
     }
   }
 
