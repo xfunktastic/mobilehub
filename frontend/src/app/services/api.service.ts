@@ -32,4 +32,34 @@ export class ApiService {
     this.router.navigate(['/home']);
   }
 
+  //Visualizar repositorios
+  getRepos(){}
+
+  //Visualizar commits del repositorio
+  getCommits(){}
+
+  //Editar Usuario
+  editUser(formValue: any){
+    const token=this.getToken();
+    if(token){
+      const headers = new HttpHeaders().set('Authorization', 'bearer'+token)
+      return this.http.patch<any>(this.url+'/profile/edit', formValue, {headers});
+    } else{
+      console.log('Token no encontrado');
+      return new Observable();
+      }
+  }
+
+  //Actualizar contraseña
+  changePassword(formValue: any){
+    const token=this.getToken();
+    if(token){
+      const headers = new HttpHeaders().set('Authorization', 'bearer'+token)
+      return this.http.patch<any>(this.url+'/update-password', formValue, {headers});
+    } else{
+      console.log('Token no encontrado');
+      return new Observable();
+      }
+  }
+
 }

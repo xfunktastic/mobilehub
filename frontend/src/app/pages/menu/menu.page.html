@@ -8,12 +8,17 @@
 </ion-header>
 
 <ion-content>
-  <div class="flex-center-menu">
-    <ion-button shape="round" size="full" color="dark">Ver repositorios</ion-button>
-    <ion-button shape="round" size="full" color="dark">Ver commits de un repositorio</ion-button>
-    <ion-button shape="round" size="full" color="dark">Editar perfil</ion-button>
-    <ion-button shape="round" size="full" color="dark">Cambiar contraseña</ion-button>
-    <ion-button shape="round" size="full" color="danger">Cerrar sesión</ion-button>
+  <div class="flex-center">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="card-title">MobileHub</ion-card-title>
+        <img class="logo-img" src="assets/img/mobilehub.png" alt="Logo" class="logo-img">
+      </ion-card-header>
+
+      <ion-card-content scroll-y="false">
+        <ion-button (click)="openMenu()" shape="round" size="full" color="dark">Abrir Menú</ion-button>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>
 

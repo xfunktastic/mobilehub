@@ -8,7 +8,7 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private ApiService:ApiService, public menuController:MenuController) {}
+  constructor(private ApiService:ApiService, private menuController:MenuController) {}
 
   logout(){
     this.ApiService.logout();
