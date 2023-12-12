@@ -20,7 +20,6 @@ use App\Http\Controllers\UserController;
 Route::post('register', [AuthController::class, 'register']);
 //Iniciar sesión
 Route::post('login', [AuthController::class, 'login']);
-
 // Cerrar sesión
 Route::post('/logout', [AuthController::class, 'logout']);
 
