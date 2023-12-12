@@ -9,7 +9,7 @@ import { Route, Router } from '@angular/router';
 export class ApiService {
 
   private url:string = 'http://127.0.0.1:8000/api';
-  private reposUrl:string = 'https://api.github.com/users/dizkm8/repos';
+  private gitUrl:string = 'https://api.github.com';
 
   constructor(private http:HttpClient, private router:Router){}
 
@@ -34,13 +34,12 @@ export class ApiService {
   }
 
   //Visualizar repositorios
-  getRepositories(){
-    return this.http.get(this.reposUrl);
+  getRepositories(): Observable<any[]> {
+    return this.http.get<any[]>(this.gitUrl + '/users/dizkm8/repos');
   }
 
-  //Visualizar commits del repositorio
-  getCommits(){
-    return this.http.get(this.reposUrl);
+  getCommits(repoName: string): Observable<any[]> {
+    return this.http.get<any[]>(this.gitUrl + '/repos/dizkm8/' + repoName + '/commits');
   }
 
   //Editar Usuario

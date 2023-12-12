@@ -10,11 +10,19 @@ export class RepositoryPage implements OnInit {
 
   repositories: any[] = [];
 
-  constructor(private ApiService:ApiService) { }
+  constructor(private ApiService: ApiService) { }
 
-  ngOnInit() {
-    this.ApiService.getRepositories().subscribe(
-      (data: any) => (this.repositories = data)
-    );
+  ngOnInit(): void {
+    this.ApiService.getRepositories().subscribe((repos: any[]) => {
+      this.repositories = repos;
+      // Obtener el número de commits para cada repositorio
+      this.repositories.forEach(repo => {
+        this.ApiService.getCommits(repo.name).subscribe((commits: any[]) => {
+          repo.commits = commits;
+          repo.commitCount = commits.length; // Asignar el número de commits al repositorio
+        });
+      });
+    });
   }
 }
+

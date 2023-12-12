@@ -1,24 +1,33 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Repositorios/dizmk8</ion-title>
-      <ion-buttons slot="start">
-        <ion-menu-button menu="main-menu"></ion-menu-button>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div>
-    <ion-list>
-      <ion-item *ngFor="let repo of repositories">
-        <ion-label class="ion-text-wrap"><strong>Repositorio: </strong> {{ repo.name }}</ion-label>
-        <ion-label><strong>Creación: </strong> {{ repo.created_at }}</ion-label>
-        <ion-label><strong>Cantidad de commits: </strong></ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
+  <!-- Aquí se muestran los repositorios -->
+  <ion-list>
+    <ion-item *ngFor="let repo of repositories">
+      <ion-label>
+        <strong>Nombre:</strong> {{ repo.name }}
+        <br>
+        <strong>Creado:</strong> {{ repo.created_at }}
+        <br>
+        <strong>Número de commits:</strong> {{ repo.commits?.length || 0 }}
+      </ion-label>
+      <!-- Agrega un botón para mostrar/ocultar los commits de este repositorio -->
+      <ion-button color="dark">Commits</ion-button>
+
+      <!-- Lista de commits para el repositorio -->
+      <!-- <ion-list>
+        <ion-item>
+
+        </ion-item>
+      </ion-list> -->
+
+    </ion-item>
+  </ion-list>
 </ion-content>
-
-
-
-
