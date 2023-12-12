@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Repositorios Dizmk8</ion-title>
+    <ion-title>Repositorios/dizmk8</ion-title>
       <ion-buttons slot="start">
         <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -8,11 +8,11 @@
 </ion-header>
 
 <ion-content>
-  <div class="flex-center">
+  <div>
     <ion-list>
       <ion-item *ngFor="let repo of repositories">
-        <ion-label><strong>Repositorio: </strong> {{ repo.name }}</ion-label>
-        <ion-label><strong>Fecha de creación: </strong> {{ repo.created_at }}</ion-label>
+        <ion-label class="ion-text-wrap"><strong>Repositorio: </strong> {{ repo.name }}</ion-label>
+        <ion-label><strong>Creación: </strong> {{ repo.created_at }}</ion-label>
         <ion-label><strong>Cantidad de commits: </strong></ion-label>
       </ion-item>
     </ion-list>
