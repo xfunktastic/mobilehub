@@ -1,50 +1,59 @@
-// Importaciones de módulos y servicios necesarios
+/**
+ * Importaciones de módulos y servicios necesarios
+ */
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 
+/**
+ * Componente para la página de repositorios.
+ */
 @Component({
   selector: 'app-repository',
   templateUrl: './repository.page.html',
   styleUrls: ['./repository.page.scss'],
 })
 export class RepositoryPage implements OnInit {
-  // Arreglo para almacenar los repositorios
+  /** Arreglo para almacenar los repositorios */
   repositories: any[] = [];
 
-  // Constructor que inyecta el servicio ApiService
+  /**
+   * Constructor que inyecta el servicio ApiService.
+   * @param apiService - Instancia del servicio ApiService.
+   */
   constructor(private apiService: ApiService) {}
 
-  // Método que se ejecuta al inicializarse el componente
+  /**
+   * Método que se ejecuta al inicializarse el componente.
+   * Obtiene los repositorios y los actualiza con los commits.
+   */
   ngOnInit(): void {
-    // Se llama al método del servicio para obtener los repositorios
     this.apiService.getRepositories().subscribe((repos: any[]) => {
-      // Cuando se obtienen los repositorios, se almacenan y se actualizan con los commits
       this.repositories = repos;
       this.updateReposWithCommits();
     });
   }
 
-  // Método para actualizar los repositorios con los commits
+  /**
+   * Actualiza los repositorios con los commits obtenidos.
+   * Itera sobre cada repositorio, obtiene los commits y actualiza la información.
+   */
   updateReposWithCommits(): void {
-    // Iterar sobre cada repositorio
     this.repositories.forEach(repo => {
-      // Obtener los commits para cada repositorio
       this.apiService.getCommits(repo.name).subscribe((commits: any[]) => {
-        // Asignar los commits al repositorio actual
         repo.commits = commits;
         repo.commitCount = commits.length;
-
-        // Encontrar el commit más reciente y actualizar la fecha del repositorio
         const mostRecentCommit = this.findMostRecentCommit(commits);
         repo.updated_at = mostRecentCommit.commit.author.date;
-
-        // Ordenar los repositorios por fecha
         this.sortRepositoriesByDate();
       });
     });
   }
 
-  // Método para encontrar el commit más reciente en un arreglo de commits
+  /**
+   * Encuentra el commit más reciente en un arreglo de commits.
+   * @param commits - Arreglo de commits.
+   * @returns El commit más reciente.
+   */
   findMostRecentCommit(commits: any[]): any {
     return commits.reduce((prev, current) => {
       const prevDate = new Date(prev.commit.author.date).getTime();
@@ -53,23 +62,26 @@ export class RepositoryPage implements OnInit {
     });
   }
 
-  // Método para ordenar los repositorios por fecha de actualización
+  /**
+   * Ordena los repositorios por fecha de actualización.
+   */
   sortRepositoriesByDate(): void {
     this.repositories.sort((a, b) => {
       return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
     });
   }
 
-  // Método para alternar la visualización de los commits de un repositorio
+  /**
+   * Alterna la visualización de los commits de un repositorio.
+   * @param repo - Repositorio para mostrar/ocultar los commits.
+   */
   toggleCommits(repo: any): void {
     if (!repo.showCommits) {
-      // Si no se están mostrando los commits, se solicitan al servicio y se muestran
       this.apiService.getCommits(repo.name).subscribe((commits: any[]) => {
         repo.commits = commits;
         repo.showCommits = true;
       });
     } else {
-      // Si ya se están mostrando los commits, se ocultan
       repo.showCommits = false;
     }
   }

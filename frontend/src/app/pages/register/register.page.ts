@@ -1,49 +1,71 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 
-
+/**
+ * Componente para la página de registro de usuarios.
+ */
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage {
-  //Obtener año actual
+  /** Almacena el año actual. */
   currentYear: number = new Date().getFullYear();
-  //Crear form group
-  form:FormGroup;
 
-  constructor(public formBuilder: FormBuilder, private ApiService:ApiService, private router: Router)
-  {
+  /** FormGroup que define el formulario de registro. */
+  form: FormGroup;
+
+  /**
+   * Constructor del componente RegisterPage.
+   * @param formBuilder Instancia de FormBuilder para la creación de formularios.
+   * @param ApiService Servicio para las llamadas a la API de registro.
+   * @param router Instancia de Router para la navegación dentro de la aplicación.
+   */
+  constructor(
+    public formBuilder: FormBuilder,
+    private ApiService: ApiService,
+    private router: Router
+  ) {
+    // Inicialización del FormGroup con validaciones para los campos del formulario
     this.form = this.formBuilder.group({
-      rut: ['', [Validators.required]],
-      full_name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      year: ['', [Validators.required]],
+      rut: ['', [Validators.required]], // Campo para el RUT (Requerido)
+      full_name: ['', [Validators.required]], // Campo para el nombre completo (Requerido)
+      email: ['', [Validators.required, Validators.email]], // Campo para el correo electrónico (Requerido y formato de correo válido)
+      year: ['', [Validators.required]], // Campo para el año (Requerido)
     });
   }
 
+  /**
+   * Función invocada al enviar el formulario de registro.
+   * Realiza el registro del usuario y gestiona los posibles errores.
+   */
   async onSubmit() {
     try {
+      // Llamada a la API para registrar los datos proporcionados en el formulario
       const message = await this.ApiService.register(this.form.value);
+      // Almacenar el token devuelto por la API en el almacenamiento local
       localStorage.setItem('token', message.token);
+      // Reiniciar el formulario después del registro exitoso
       this.form.reset();
+      // Redireccionar a la página del menú luego del registro exitoso
       this.router.navigate(['/menu']);
-    } catch (error:any) {
-      // Setear el error general en el formulario
+    } catch (error: any) {
+      // Manejo de errores en caso de fallo en el registro
+
+      // Verificar si hay un error general devuelto por la API y establecerlo en el formulario
       if (error.error) {
-        // Manejar errores generales del servidor
         const serverError = error.error.error;
         this.form.setErrors({ serverError: serverError });
       }
+
+      // Verificar si hay errores específicos para campos individuales y establecerlos en el formulario
       if (error.error?.errors) {
         const errorObject = error.error.errors;
-        // Iterar sobre las claves del objeto de errores
         Object.keys(errorObject).forEach((fieldName) => {
           const formControl = this.form.get(fieldName);
-          // Verificar si el campo existe en el formulario
           if (formControl) {
             formControl.setErrors({ serverError: errorObject[fieldName][0] });
           }
