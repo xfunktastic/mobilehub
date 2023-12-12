@@ -24,5 +24,16 @@ export class RepositoryPage implements OnInit {
       });
     });
   }
+
+  toggleCommits(repo: any): void {
+    if (!repo.showCommits) {
+      this.ApiService.getCommits(repo.name).subscribe((commits: any[]) => {
+        repo.commits = commits;
+        repo.showCommits = true;
+      });
+    } else {
+      repo.showCommits = false;
+    }
+  }
 }
 

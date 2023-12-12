@@ -8,26 +8,30 @@
 </ion-header>
 
 <ion-content>
-  <!-- Aquí se muestran los repositorios -->
-  <ion-list>
-    <ion-item *ngFor="let repo of repositories">
-      <ion-label>
-        <strong>Nombre:</strong> {{ repo.name }}
-        <br>
-        <strong>Creado:</strong> {{ repo.created_at }}
-        <br>
-        <strong>Número de commits:</strong> {{ repo.commits?.length || 0 }}
-      </ion-label>
-      <!-- Agrega un botón para mostrar/ocultar los commits de este repositorio -->
-      <ion-button color="dark">Commits</ion-button>
-
-      <!-- Lista de commits para el repositorio -->
-      <!-- <ion-list>
+  <ion-grid>
+    <ion-row *ngFor="let repo of repositories">
+      <ion-col>
         <ion-item>
-
+          <ion-label>
+            <strong>Nombre:</strong> {{ repo.name }}
+            <br>
+            <strong>Creado:</strong> {{ repo.created_at }}
+            <br>
+            <strong>Número de commits:</strong> {{ repo.commits.length }}
+          </ion-label>
+          <!-- Agrega un botón para mostrar/ocultar los commits de este repositorio -->
+          <ion-button color="dark" (click)="toggleCommits(repo)">Commits</ion-button>
         </ion-item>
-      </ion-list> -->
 
-    </ion-item>
-  </ion-list>
+        <!-- Lista de commits para el repositorio -->
+        <ion-list *ngIf="repo.showCommits">
+          <ion-item *ngFor="let commit of repo.commits">
+            <ion-label>
+              <strong>Commit:</strong> {{ commit.commit.message }}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
