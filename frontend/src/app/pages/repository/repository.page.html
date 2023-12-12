@@ -8,11 +8,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label></ion-label>
-    </ion-item>
-  </ion-list>
+  <div class="flex-center">
+    <ion-list>
+      <ion-item *ngFor="let repo of repositories">
+        <ion-label><strong>Repositorio: </strong> {{ repo.name }}</ion-label>
+        <ion-label><strong>Fecha de creación: </strong> {{ repo.created_at }}</ion-label>
+        <ion-label><strong>Cantidad de commits: </strong></ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
 
 

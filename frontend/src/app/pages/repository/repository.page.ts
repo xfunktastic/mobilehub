@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-repository',
@@ -8,16 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RepositoryPage implements OnInit {
 
-  repositories = [];
+  repositories: any[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private ApiService:ApiService) { }
 
   ngOnInit() {
-    this.http.get<any>('https://api.github.com/users/dizkm8/repos')
-    .subscribe(res => {
-      console.log(res);
-      this.repositories = res;
-    });
+    this.ApiService.getRepositories().subscribe(
+      (data: any) => (this.repositories = data)
+    );
   }
-
 }

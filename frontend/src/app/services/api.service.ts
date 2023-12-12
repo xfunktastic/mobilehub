@@ -10,6 +10,8 @@ export class ApiService {
 
   private url:string = 'http://127.0.0.1:8000/api';
 
+  private reposUrl:string = 'https://api.github.com/users/dizkm8/repos';
+
   constructor(private http:HttpClient, private router:Router){}
 
   getToken():string | null {
@@ -33,10 +35,14 @@ export class ApiService {
   }
 
   //Visualizar repositorios
-  getRepos(){}
+  getRepositories(){
+    return this.http.get(this.reposUrl);
+  }
 
   //Visualizar commits del repositorio
-  getCommits(){}
+  getCommits(){
+    return this.http.get(this.reposUrl);
+  }
 
   //Editar Usuario
   editUser(formValue: any){
