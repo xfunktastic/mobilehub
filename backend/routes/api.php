@@ -21,11 +21,11 @@ Route::post('register', [AuthController::class, 'register']);
 //Iniciar sesión
 Route::post('login', [AuthController::class, 'login']);
 
+// Cerrar sesión
+Route::post('/logout', [AuthController::class, 'logout']);
+
 Route::middleware(['jwt'])->group(function()
 {
-    // Cerrar sesión
-    Route::post('/logout', [AuthController::class, 'logout']);
-
     // Actualizar Contraseña
     Route::put('/update-password', [AuthController::class, 'updatePassword']);
 
