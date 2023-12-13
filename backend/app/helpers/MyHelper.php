@@ -26,6 +26,7 @@ function validationMessages()
         'new_password.required' => 'El campo de nueva contraseña es obligatorio.',
         'new_password.string' => 'El campo de nueva contraseña debe ser una cadena de texto.',
         'new_password.different' => 'La nueva contraseña debe ser diferente a la contraseña actual.',
+        'new_password.min' => 'La contraseña debe ser igual o mayor que :min.',
         'confirm_password.required' => 'El campo de confirmación de contraseña es obligatorio.',
         'confirm_password.string' => 'El campo de confirmación de contraseña debe ser una cadena de texto.',
         'confirm_password.min' => 'El campo de confirmación de contraseña debe tener al menos :min caracteres.',

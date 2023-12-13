@@ -77,7 +77,7 @@ class UserController extends Controller
             $this->validate($request, [
                 'password' => 'required|string',
                 'new_password' => 'required|string|min:8|different:password',
-                'confirm_password' => 'required|string|same:new_password',
+                'confirm_password' => 'required|string|min:8|same:new_password',
             ], $messages);
 
             // Obtener el usuario autenticado
