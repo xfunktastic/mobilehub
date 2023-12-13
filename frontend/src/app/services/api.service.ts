@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Route, Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
+import { throwError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class ApiService {
 
   constructor(private http:HttpClient, private router:Router){}
 
+  //Obtener token
   getToken():string | null {
     return localStorage.getItem('token');
   }
@@ -47,7 +50,7 @@ export class ApiService {
     const token=this.getToken();
     if(token){
       const headers = new HttpHeaders().set('Authorization', 'bearer'+token)
-      return this.http.patch<any>(this.url+'/profile/edit', formValue, {headers});
+      return this.http.patch<any>(this.url+'/profile/edit', formValue, { headers, responseType: 'json'});
     } else{
       console.log('Token no encontrado');
       return new Observable();
@@ -55,15 +58,15 @@ export class ApiService {
   }
 
   //Actualizar contraseña
-  changePassword(formValue: any){
-    const token=this.getToken();
-    if(token){
-      const headers = new HttpHeaders().set('Authorization', 'bearer'+token)
-      return this.http.patch<any>(this.url+'/update-password', formValue, {headers});
-    } else{
+  updatePassword(formValue: any) {
+    const token = this.getToken();
+    if (token) {
+      const headers = new HttpHeaders().set('Authorization', 'bearer' + token);
+      return this.http.patch<any>(`${this.url}/update-password`, formValue, { headers });
+    } else {
       console.log('Token no encontrado');
-      return new Observable();
-      }
+      return new Observable(); // Retorna un observable vacío en caso de no encontrar el token
+    }
   }
 
 }

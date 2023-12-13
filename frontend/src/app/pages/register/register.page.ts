@@ -18,6 +18,11 @@ export class RegisterPage {
   /** FormGroup que define el formulario de registro. */
   form: FormGroup;
 
+  /** Indicador para mostrar la tarjeta de éxito al iniciar sesión. */
+  showSuccess: boolean = false;
+
+
+
   /**
    * Constructor del componente RegisterPage.
    * @param formBuilder Instancia de FormBuilder para la creación de formularios.
@@ -45,13 +50,24 @@ export class RegisterPage {
   async onSubmit() {
     try {
       // Llamada a la API para registrar los datos proporcionados en el formulario
-      const message = await this.ApiService.register(this.form.value);
-      // Almacenar el token devuelto por la API en el almacenamiento local
-      localStorage.setItem('token', message.token);
-      // Reiniciar el formulario después del registro exitoso
-      this.form.reset();
-      // Redireccionar a la página del menú luego del registro exitoso
-      this.router.navigate(['/menu']);
+      const response = await this.ApiService.register(this.form.value);
+      const success = response.success;
+
+      if(success){
+        // Almacenar el token devuelto por la API en el almacenamiento local
+        localStorage.setItem('token', response.token);
+        // Reiniciar el formulario después del registro exitoso
+        this.form.reset();
+
+        this.showSuccess = true;
+
+        // Temporizador para redirigir a otra vista después de 3 segundos (3000 ms)
+        setTimeout(() => {
+          this.router.navigate(['/menu']); // Cambiar a la vista del menú después del tiempo especificado
+        }, 1500);
+
+      }
+
     } catch (error: any) {
       // Manejo de errores en caso de fallo en el registro
 

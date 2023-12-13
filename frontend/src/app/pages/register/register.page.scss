@@ -28,6 +28,12 @@ ion-card {
   text-align: center; /* Optional: Center the text within the error message */
 }
 
+.success-message {
+  margin-top: 5px;
+  width: 100%; /* Add this line to make the error message extend horizontally */
+  text-align: center; /* Optional: Center the text within the error message */
+}
+
 ion-list {
   display: flex;
   flex-direction: column;

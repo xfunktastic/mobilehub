@@ -24,6 +24,9 @@
           <ion-card class="error-message" color="danger" *ngIf="form.hasError('serverError')">
             <ion-card-content><strong>ERROR: </strong>{{ form.getError('serverError') }}</ion-card-content>
           </ion-card>
+          <ion-card class="success-message" color="success" *ngIf="showSuccess">
+            <ion-card-content><strong>Has iniciado sesión</strong></ion-card-content>
+          </ion-card>
         </ion-card-content>
       </form>
     </ion-card>
