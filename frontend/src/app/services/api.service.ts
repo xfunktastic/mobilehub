@@ -45,28 +45,18 @@ export class ApiService {
     return this.http.get<any[]>(this.gitUrl + '/repos/dizkm8/' + repoName + '/commits');
   }
 
-  //Editar Usuario
-  editUser(formValue: any){
-    const token=this.getToken();
-    if(token){
-      const headers = new HttpHeaders().set('Authorization', 'bearer'+token)
-      return this.http.patch<any>(this.url+'/profile/edit', formValue, { headers, responseType: 'json'});
-    } else{
-      console.log('Token no encontrado');
-      return new Observable();
-      }
+  //Editar perfil
+  editProfile(formValue: any) {
+    const token = this.getToken(); // Usar this.getToken() en lugar de getToken()
+    const headers = new HttpHeaders().set('Authorization', 'bearer' + token); // Asegúrate de tener un espacio después de 'bearer'
+    return this.http.patch(this.url + '/prfoile/edit', formValue, { headers });
   }
 
   //Actualizar contraseña
   updatePassword(formValue: any) {
-    const token = this.getToken();
-    if (token) {
-      const headers = new HttpHeaders().set('Authorization', 'bearer' + token);
-      return this.http.patch<any>(`${this.url}/update-password`, formValue, { headers });
-    } else {
-      console.log('Token no encontrado');
-      return new Observable(); // Retorna un observable vacío en caso de no encontrar el token
-    }
+    const token = this.getToken(); // Usar this.getToken() en lugar de getToken()
+    const headers = new HttpHeaders().set('Authorization', 'bearer' + token); // Asegúrate de tener un espacio después de 'bearer'
+    return this.http.patch(this.url + '/update-password', formValue, { headers });
   }
 
 }

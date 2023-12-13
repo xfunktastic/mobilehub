@@ -56,6 +56,7 @@ export class LoginPage {
         // Temporizador para redirigir a otra vista después de 3 segundos (3000 ms)
         setTimeout(() => {
           this.router.navigate(['/menu']); // Cambiar a la vista del menú después del tiempo especificado
+          this.showSuccess = false;
         }, 1500);
       }
     } catch (error: any) {
@@ -65,7 +66,7 @@ export class LoginPage {
         const serverError = error.error.error;
         this.form.setErrors({ serverError: serverError }); // Configurar error general del servidor en el formulario
       }
-      if (error.error?.errors) {
+      if (error.error.errors) {
         const errorObject = error.error.errors;
         // Iteración sobre las claves del objeto de errores
         Object.keys(errorObject).forEach((fieldName) => {

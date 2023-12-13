@@ -2,23 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-password',
   templateUrl: './password.page.html',
   styleUrls: ['./password.page.scss'],
 })
-export class PasswordPage implements OnInit {
+export class PasswordPage {
 
   form:FormGroup;
-
-  formValue: any = {
-    // inicializa formValue con los valores del formulario
-    password: '',
-    new_password: '',
-    confirm_password: ''
-  };
-
   showSuccess: boolean = false;
 
   constructor(
@@ -33,21 +27,38 @@ export class PasswordPage implements OnInit {
     });
   }
 
-  async updatePassword() {
-    try {
-      const formValue = this.form.value;
-      console.log('Valores del formulario:', formValue);
-      await this.ApiService.updatePassword(formValue);
-      console.log('Contraseña actualizada con éxito');
-      this.form.reset();
-      this.router.navigate(['/menu']);
-    } catch (error:any) {
-      console.error('Error al actualizar la contraseña', error);
-      // Handle the error, for example, displaying a message to the user
-    }
+  updatePassword() {
+    const formValue = this.form.value;
+    this.ApiService.updatePassword(formValue).subscribe(
+      (response) => {
+        const success = response;
+        if (success) {
+          this.form.reset();
+          this.showSuccess = true;
+          setTimeout(() => {
+            this.router.navigate(['/menu']);
+            this.showSuccess = false;
+          }, 1500);
+        }
+      },
+      (error) => {
+        if (error.error && error.error.error) {
+          // Handle general errors if necessary
+          const serverError = error.error.error;
+          this.form.setErrors({ serverError }); // Set general server error in the form
+        } else if (error.error && error.error.errors) {
+          const fieldName = error.error.errors;
+          for (const field in fieldName) {
+            if (fieldName.hasOwnProperty(field)) {
+              // Handle specific field errors
+              const formControl = this.form.get(field);
+              if (formControl) {
+                formControl.setErrors({ serverError: fieldName[field][0] }); // Set specific field errors in the form
+              }
+            }
+          }
+        }
+      }
+    );
   }
-
-  ngOnInit() {
-  }
-
 }
