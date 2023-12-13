@@ -72,14 +72,6 @@ class UserController extends Controller
     public function updatePassword(Request $request)
     {
         try {
-            // Validación de datos para la actualización de la contraseña
-            $messages = validationMessages();
-            $this->validate($request, [
-                'password' => 'required|string|min:8|different:new_password',
-                'new_password' => 'required|string|min:8|',
-                'confirm_password' => 'required|string|min:8|same:new_password',
-            ], $messages);
-
             // Obtener el usuario autenticado
             $user = JWTAuth::user();
 
@@ -88,6 +80,20 @@ class UserController extends Controller
                 return response()->json(['error' => 'Usuario no autenticado'], 401);
             }
 
+            // Validación de datos para la actualización de la contraseña
+            $messages = validationMessages();
+            $this->validate($request, [
+                'password' => 'required|string|min:8|different:new_password',
+                'new_password' => 'required|string|min:8',
+                'confirm_password' => 'required|string|min:8|same:new_password',
+            ], $messages);
+
+            // Verificar si la contraseña actual coincide con la proporcionada en la solicitud
+            if (!Hash::check($request->input('password'), $user->password)) {
+                return response()->json(['error' => 'La contraseña actual no es válida'], 422);
+            }
+
+            // Actualizar la contraseña del usuario
             $user->update([
                 'password' => bcrypt($request->input('new_password')), // Actualiza la contraseña
             ]);
@@ -106,5 +112,6 @@ class UserController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 
 }
