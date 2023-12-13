@@ -138,8 +138,8 @@ class AuthController extends Controller
             // Validación de campos requeridos
             $messages = validationMessages();
             $this->validate($request, [
-                'email' => 'required|regex:/^[^@]+@[^@.]+\.[^@]+$/',
-                'password' => 'required|min:8',
+                'email' => 'required|string|regex:/^[^@]+@[^@.]+\.[^@]+$/',
+                'password' => 'required|string|min:8',
             ], $messages);
 
             // Obtener las credenciales del usuario

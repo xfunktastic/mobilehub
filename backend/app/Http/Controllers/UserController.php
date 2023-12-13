@@ -75,8 +75,8 @@ class UserController extends Controller
             // Validación de datos para la actualización de la contraseña
             $messages = validationMessages();
             $this->validate($request, [
-                'password' => 'required|string',
-                'new_password' => 'required|string|min:8|different:password',
+                'password' => 'required|string|min:8|different:new_password',
+                'new_password' => 'required|string|min:8|',
                 'confirm_password' => 'required|string|min:8|same:new_password',
             ], $messages);
 
@@ -86,11 +86,6 @@ class UserController extends Controller
             // Verificar si el usuario está autenticado
             if (!$user) {
                 return response()->json(['error' => 'Usuario no autenticado'], 401);
-            }
-
-            // Verificar si la contraseña proporcionada coincide con la contraseña actual del usuario
-            if (!Hash::check($request->input('password'), $user->password)) {
-                return response()->json(['error' => 'Credenciales inválidas'], 400);
             }
 
             $user->update([
