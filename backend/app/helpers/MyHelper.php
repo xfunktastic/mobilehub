@@ -23,8 +23,6 @@ function validationMessages()
         'year.between' => 'El Año de nacimiento debe estar entre 1990 y :max.',
         'password.required' => 'La contraseña es obligatoria.',
         'password.string' => 'La contraseña debe ser texto',
-        'current_password.required' => 'El campo de contraseña actual es obligatorio.',
-        'current_password.string' => 'El campo de contraseña actual debe ser una cadena de texto.',
         'new_password.required' => 'El campo de nueva contraseña es obligatorio.',
         'new_password.string' => 'El campo de nueva contraseña debe ser una cadena de texto.',
         'new_password.different' => 'La nueva contraseña debe ser diferente a la contraseña actual.',

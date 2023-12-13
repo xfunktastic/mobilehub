@@ -26,8 +26,8 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::middleware(['jwt'])->group(function()
 {
     // Actualizar Contraseña
-    Route::put('/update-password', [AuthController::class, 'updatePassword']);
+    Route::patch('/update-password', [UserController::class, 'updatePassword']);
 
     // Editar usuario
-    Route::put('/profile/edit', [UserController::class, 'edit']);
+    Route::patch('/profile/edit', [UserController::class, 'edit']);
 });

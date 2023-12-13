@@ -57,6 +57,7 @@ class AuthController extends Controller
             return response()->json([
                 'user' => $user,
                 'token' => $token,
+                'success' => 'Has creado un usuario',
             ], 201);
         } catch (ValidationException $e) {
             // Error de validación
@@ -187,55 +188,6 @@ class AuthController extends Controller
             return response()->json([
                 'error' => 'No se pudo cerrar sesión',
             ], 500);
-        }
-    }
-
-    /**
-     * Actualización de la contraseña del usuario.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updatePassword(Request $request)
-    {
-        try {
-            // Validación de datos para la actualización de la contraseña
-            $messages = validationMessages();
-            $this->validate($request, [
-                'current_password' => 'required|string',
-                'new_password' => 'required|string|min:8|different:current_password',
-                'confirm_password' => 'required|string|same:new_password',
-            ], $messages);
-
-            // Obtener el usuario autenticado
-            $user = JWTAuth::user();
-
-            // Verificar si el usuario está autenticado
-            if (!$user) {
-                return response()->json(['error' => 'Usuario no autenticado'], 401);
-            }
-
-            // Verificar si la contraseña actual proporcionada coincide con la almacenada
-            if (!password_verify($request->input('current_password'), $user->password)) {
-                return response()->json(['error' => 'La contraseña actual no es válida.'], 401);
-            }
-
-            // Actualizar la contraseña del usuario con la nueva contraseña utilizando bcrypt
-            $user->update([
-                'password' => bcrypt($request->input('new_password')),
-            ]);
-
-            // Respuesta JSON con información de la actualización exitosa de la contraseña
-            return response()->json([
-                'success' => 'Contraseña actualizada exitosamente',
-            ], 200);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Error de validación
-            $errors = $e->validator->errors()->getMessages();
-            return response()->json(['errors' => $errors], 422);
-        } catch (\Exception $e) {
-            // Excepción general
-            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
