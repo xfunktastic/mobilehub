@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-password',
@@ -12,13 +10,13 @@ import { throwError } from 'rxjs';
 })
 export class PasswordPage {
 
-  form:FormGroup;
+  form: FormGroup;
   showSuccess: boolean = false;
 
   constructor(
     public formBuilder: FormBuilder,
-    private ApiService:ApiService,
-    private router: Router
+    private apiService: ApiService,
+    private router: Router,
   ) {
     this.form = this.formBuilder.group({
       password: ['', [Validators.required]],
@@ -29,14 +27,16 @@ export class PasswordPage {
 
   updatePassword() {
     const formValue = this.form.value;
-    this.ApiService.updatePassword(formValue).subscribe(
+    this.apiService.updatePassword(formValue).subscribe(
       (response) => {
         const success = response;
         if (success) {
           this.form.reset();
           this.showSuccess = true;
           setTimeout(() => {
-            this.router.navigate(['/menu']);
+            // Redirect to login and remove token
+            localStorage.removeItem('token');
+            this.router.navigate(['/login']); // Redirect to the login page
             this.showSuccess = false;
           }, 1500);
         }

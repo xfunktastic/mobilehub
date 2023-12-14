@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Editar</ion-title>
+    <ion-title>Editar perfil</ion-title>
       <ion-buttons slot="start">
         <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -13,24 +13,24 @@
       <ion-card-header>
         <ion-card-title class="card-title">Editar perfil</ion-card-title>
       </ion-card-header>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <form [formGroup]="form" (ngSubmit)="editProfile()">
         <ion-card-content scroll-y="false">
           <ion-item>
-            <ion-label position="floating">Nombre</ion-label>
+            <ion-label position="floating">Nuevo nombre completo</ion-label>
             <ion-input formControlName="full_name" name="full_name" type="text"></ion-input>
           </ion-item>
           <ion-card class="error-message" color="danger" *ngIf="form.get('full_name')?.hasError('serverError')">
             <ion-card-content><strong>ERROR: </strong>{{ form.get('full_name')?.getError('serverError') }}</ion-card-content>
           </ion-card>
           <ion-item>
-            <ion-label position="floating">Email</ion-label>
+            <ion-label position="floating">Nuevo email</ion-label>
             <ion-input formControlName="email" name="email" type="email"></ion-input>
           </ion-item>
           <ion-card class="error-message" color="danger" *ngIf="form.get('email')?.hasError('serverError')">
             <ion-card-content><strong>ERROR: </strong>{{ form.get('email')?.getError('serverError') }}</ion-card-content>
           </ion-card>
           <ion-item>
-            <ion-label position="floating">Año de nacimiento</ion-label>
+            <ion-label position="floating">Nuevo año de nacimiento</ion-label>
             <ion-input formControlName="year" name="year" type="number"></ion-input>
           </ion-item>
           <ion-card class="error-message" color="danger" *ngIf="form.get('year')?.hasError('serverError')">
@@ -39,6 +39,9 @@
           <ion-button type="submit" shape="round" size="full" color="dark">Guardar cambios</ion-button>
           <ion-card class="error-message" color="danger" *ngIf="form.hasError('serverError')">
             <ion-card-content><strong>ERROR: </strong>{{ form.getError('serverError') }}</ion-card-content>
+          </ion-card>
+          <ion-card class="success-message" color="success" *ngIf="showSuccess">
+            <ion-card-content><strong>Se han actualizado tus datos</strong></ion-card-content>
           </ion-card>
         </ion-card-content>
       </form>

@@ -41,6 +41,7 @@ export class ApiService {
     return this.http.get<any[]>(this.gitUrl + '/users/dizkm8/repos');
   }
 
+  //Obtener commits de un repositorio en específico
   getCommits(repoName: string): Observable<any[]> {
     return this.http.get<any[]>(this.gitUrl + '/repos/dizkm8/' + repoName + '/commits');
   }
@@ -49,7 +50,7 @@ export class ApiService {
   editProfile(formValue: any) {
     const token = this.getToken(); // Usar this.getToken() en lugar de getToken()
     const headers = new HttpHeaders().set('Authorization', 'bearer' + token); // Asegúrate de tener un espacio después de 'bearer'
-    return this.http.patch(this.url + '/prfoile/edit', formValue, { headers });
+    return this.http.patch(this.url + '/profile/edit', formValue, { headers });
   }
 
   //Actualizar contraseña
