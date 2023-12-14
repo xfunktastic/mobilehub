@@ -47,10 +47,12 @@ export class ApiService {
   }
 
   //Editar perfil
-  editProfile(formValue: any) {
-    const token = this.getToken(); // Usar this.getToken() en lugar de getToken()
-    const headers = new HttpHeaders().set('Authorization', 'bearer' + token); // Asegúrate de tener un espacio después de 'bearer'
-    return this.http.patch(this.url + '/profile/edit', formValue, { headers });
+  getUser(userId: number) {
+    return this.http.get<any>(`${this.url}/user/${userId}`);
+  }
+  //Actualizar perfil
+  updateUser(userId: number, formValue: any) {
+      return this.http.patch<any>(`${this.url}/user/${userId}`, formValue);
   }
 
   //Actualizar contraseña
