@@ -24,7 +24,7 @@ function validationMessages()
         'password.required' => 'La contraseña es obligatoria.',
         'password.string' => 'La contraseña debe ser texto',
         'password.min' => 'La contraseña debe ser igual o mayor que :min.',
-        'password.different' => 'La nueva contraseña debe ser diferente a la contraseña actual.',
+        'new_password.different' => 'La nueva contraseña debe ser diferente a la contraseña actual.',
         'new_password.required' => 'El campo de nueva contraseña es obligatorio.',
         'new_password.string' => 'El campo de nueva contraseña debe ser una cadena de texto.',
         'new_password.min' => 'La contraseña debe ser igual o mayor que :min.',

@@ -29,5 +29,6 @@ Route::middleware(['jwt'])->group(function()
     Route::patch('/update-password', [UserController::class, 'updatePassword']);
 
     // Editar usuario
-    Route::patch('/profile/edit', [UserController::class, 'edit']);
+    Route::patch('/profile/edit', [UserController::class, 'updateProfile']);
+
 });
