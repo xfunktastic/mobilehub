@@ -19,11 +19,9 @@
             <br>
             <strong>Número de commits:</strong> {{ repo.commits.length }}
           </ion-label>
-          <!-- Agrega un botón para mostrar/ocultar los commits de este repositorio -->
           <ion-button color="dark" (click)="toggleCommits(repo)">Commits</ion-button>
         </ion-item>
 
-        <!-- Lista de commits para el repositorio -->
         <ion-list *ngIf="repo.showCommits">
           <ion-item *ngFor="let commit of repo.commits">
             <ion-label>
