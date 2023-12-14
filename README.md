@@ -43,7 +43,7 @@ Este proyecto consiste en la creación de una aplicación móvil para la asignat
 7. Configura la base de datos en el archivo con tus datos `.env`.
     
 9. Ejecuta las migraciones y los seeders: 
-- `php artisan migrate`.
+`php artisan migrate`.
 
 10. Agrega esta línea de codigo en: `backend\vendor\autoload.php`
 `require_once __DIR__ . '/../app/helpers/MyHelper.php'`.
