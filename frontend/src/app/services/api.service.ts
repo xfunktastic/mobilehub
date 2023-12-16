@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { Route, Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
-import { throwError, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -47,18 +46,22 @@ export class ApiService {
   }
 
   //Editar perfil
-  getUser(userId: number) {
-    return this.http.get<any>(`${this.url}/user/${userId}`);
+  getUser(id: number) {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'bearer' + token);
+    return this.http.get<any>(this.url+/user/+`${id}`, { headers });
   }
   //Actualizar perfil
-  updateUser(userId: number, formValue: any) {
-      return this.http.patch<any>(`${this.url}/user/${userId}`, formValue);
+  updateUser(id: number, formValue: any) {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'bearer' + token);
+    return this.http.patch<any>(this.url+/user/+`${id}`, formValue, { headers });
   }
 
   //Actualizar contraseña
   updatePassword(formValue: any) {
-    const token = this.getToken(); // Usar this.getToken() en lugar de getToken()
-    const headers = new HttpHeaders().set('Authorization', 'bearer' + token); // Asegúrate de tener un espacio después de 'bearer'
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', 'bearer' + token);
     return this.http.patch(this.url + '/update-password', formValue, { headers });
   }
 

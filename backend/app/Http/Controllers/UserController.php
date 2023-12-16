@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function editProfile(Request $request, $id)
+    public function editProfile(Request $request)
     {
         // Obtener el usuario autenticado
         $user = JWTAuth::user();
@@ -19,13 +19,12 @@ class UserController extends Controller
             return response()->json(['error' => 'Usuario no autenticado'], 401);
         }
 
-        // Verificar si el usuario que solicita la edición es el mismo que el usuario a editar
-        if ($user->id != $id) {
-            return response()->json(['message' => 'No tienes permiso para editar este usuario'], 403);
-        }
-
-        // Encontrar y retornar los datos específicos del usuario
-        $userData = User::select('year', 'full_name', 'email')->find($id);
+        // Datos del usuario autenticado
+        $userData = [
+            'year' => $user->year,
+            'full_name' => $user->full_name,
+            'email' => $user->email,
+        ];
 
         if (!$userData) {
             return response()->json(['message' => 'Usuario no encontrado'], 404);
@@ -34,8 +33,10 @@ class UserController extends Controller
         return response()->json(['user' => $userData]);
     }
 
-    public function updateProfile(Request $request, $id)
-    {}
+    public function updateProfile(Request $request)
+    {
+
+    }
 
     public function updatePassword(Request $request)
     {
