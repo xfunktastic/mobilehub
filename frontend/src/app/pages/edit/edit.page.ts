@@ -16,7 +16,6 @@ export class EditPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private apiService: ApiService,
-    private route: ActivatedRoute
   ) {
     this.form = this.formBuilder.group({
       full_name: ['', [Validators.required]],
@@ -25,9 +24,19 @@ export class EditPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getUser();
+  }
 
-  getToken() {
-    // Lógica para obtener el token
+  getUser() {
+    this.apiService.getUser().subscribe(
+      (data: any) => {
+        const userData = data.user; // Obtiene los datos del usuario
+        this.form.patchValue(userData); // Llena el formulario con los datos del usuario
+      },
+      (error) => {
+        console.error('Error al obtener los datos del usuario', error);
+      }
+    );
   }
 }

@@ -46,16 +46,16 @@ export class ApiService {
   }
 
   //Editar perfil
-  getUser(id: number) {
+  getUser(): Observable<any>{
     const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', 'bearer' + token);
-    return this.http.get<any>(this.url+/user/+`${id}`, { headers });
+    return this.http.get<any>(this.url + '/user', { headers });
   }
   //Actualizar perfil
   updateUser(id: number, formValue: any) {
     const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', 'bearer' + token);
-    return this.http.patch<any>(this.url+/user/+`${id}`, formValue, { headers });
+    return this.http.patch<any>(this.url + /user/+`${id}`, formValue, { headers });
   }
 
   //Actualizar contraseña
