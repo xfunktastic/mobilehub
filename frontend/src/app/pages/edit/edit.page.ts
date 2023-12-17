@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class EditPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private apiService: ApiService,
+    private router: Router,
   ) {
     this.form = this.formBuilder.group({
       full_name: ['', [Validators.required]],
@@ -24,12 +25,13 @@ export class EditPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.getUser();
+  ngOnInit()
+  {
+    this.editProfile();
   }
 
-  getUser() {
-    this.apiService.getUser().subscribe(
+  editProfile() {
+    this.apiService.editProfile().subscribe(
       (data: any) => {
         const userData = data.user; // Obtiene los datos del usuario
         this.form.patchValue(userData); // Llena el formulario con los datos del usuario
