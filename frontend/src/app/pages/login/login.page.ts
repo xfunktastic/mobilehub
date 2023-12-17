@@ -18,6 +18,7 @@ export class LoginPage {
 
   /** Indicador para mostrar la tarjeta de éxito al iniciar sesión. */
   showSuccess: boolean = false;
+  successMessage: string ='';
 
   /**
    * Constructor del componente de inicio de sesión.
@@ -46,14 +47,13 @@ export class LoginPage {
       // Intenta autenticar utilizando los valores del formulario
       const response = await this.ApiService.login(this.form.value);
       const success = response.success;
-
       if (success) {
         // Almacenamiento del token de sesión tras un inicio de sesión exitoso
         localStorage.setItem('token', response.token);
         this.form.reset(); // Reiniciar el formulario
         this.showSuccess = true; // Mostrar tarjeta de éxito al iniciar sesión correctamente
-
-        // Temporizador para redirigir a otra vista después de 3 segundos (3000 ms)
+        this.successMessage = success;
+        // Temporizador para redirigir a otra vista después de 3 segundos
         setTimeout(() => {
           this.router.navigate(['/menu']); // Cambiar a la vista del menú después del tiempo especificado
           this.showSuccess = false;
