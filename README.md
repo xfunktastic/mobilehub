@@ -48,7 +48,7 @@ Este proyecto consiste en la creación de una aplicación móvil para la asignat
 `php artisan migrate`.
 
 10. Agrega esta línea de codigo en: `backend\vendor\autoload.php`
-`require_once __DIR__ . '/../app/helpers/MyHelper.php'`.
+`require_once __DIR__ . '/../app/helpers/MyHelper.php';`.
 
 11. Inicia el servidor: `php artisan serve`.
 
