@@ -15,9 +15,11 @@
           <ion-label>
             <strong>Nombre:</strong> {{ repo.name }}
             <br>
-            <strong>Creado:</strong> {{ repo.created_at }}
+            <strong>Creado:</strong> {{ repo.created_at | date: 'dd/MM/yyyy' }}
             <br>
             <strong>Número de commits:</strong> {{ repo.commits.length }}
+            <br>
+            <strong>Última modificación:</strong> {{ repo.updated_at | date: 'dd/MM/yyyy'  }}
           </ion-label>
           <ion-button color="dark" (click)="toggleCommits(repo)">Commits</ion-button>
         </ion-item>
@@ -26,6 +28,8 @@
           <ion-item *ngFor="let commit of repo.commits">
             <ion-label>
               <strong>Commit:</strong> {{ commit.commit.message }}
+              <br>
+              <strong>Creación:</strong> {{ commit.commit.author.date | date: 'medium' }}
             </ion-label>
           </ion-item>
         </ion-list>
