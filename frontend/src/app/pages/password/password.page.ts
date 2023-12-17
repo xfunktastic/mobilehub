@@ -12,6 +12,7 @@ export class PasswordPage {
 
   form: FormGroup;
   showSuccess: boolean = false;
+  successMessage: string = '';
 
   constructor(
     public formBuilder: FormBuilder,
@@ -28,32 +29,30 @@ export class PasswordPage {
   updatePassword() {
     const formValue = this.form.value;
     this.apiService.updatePassword(formValue).subscribe(
-      (response) => {
-        const success = response;
-        if (success) {
+      (response: any) => {
+        const successMessage = response.success; // Verifica la estructura de la respuesta y extrae el mensaje de éxito
+        if (successMessage) {
           this.form.reset();
           this.showSuccess = true;
+          this.successMessage = successMessage; // Almacena el mensaje de éxito para mostrarlo en HTML
           setTimeout(() => {
-            // Redirect to login and remove token
             localStorage.removeItem('token');
-            this.router.navigate(['/login']); // Redirect to the login page
+            this.router.navigate(['/login']);
             this.showSuccess = false;
           }, 1500);
         }
       },
       (error) => {
         if (error.error && error.error.error) {
-          // Handle general errors if necessary
           const serverError = error.error.error;
-          this.form.setErrors({ serverError }); // Set general server error in the form
+          this.form.setErrors({ serverError });
         } else if (error.error && error.error.errors) {
           const fieldName = error.error.errors;
           for (const field in fieldName) {
             if (fieldName.hasOwnProperty(field)) {
-              // Handle specific field errors
               const formControl = this.form.get(field);
               if (formControl) {
-                formControl.setErrors({ serverError: fieldName[field][0] }); // Set specific field errors in the form
+                formControl.setErrors({ serverError: fieldName[field][0] });
               }
             }
           }
