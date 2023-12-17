@@ -55,7 +55,7 @@ class AuthController extends Controller
 
             // Mensaje de creación de usuario y token
             return response()->json([
-                'success' => 'Has creado un usuario',
+                'success' => 'Usuario creado exitosamente',
             ], 201);
         } catch (ValidationException $e) {
             // Error de validación
