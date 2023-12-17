@@ -57,7 +57,7 @@ class UserController extends Controller
 
             // Verificar si el año es igual (usando == para comparación)
             if ($request->input('year') == $user->year) {
-                $error['year'] = 'El año no ha presentado cambios.';
+                $error['year'] = 'El año de nacimiento no ha presentado cambios.';
             }
 
             // Si hay errores, devolver los mensajes de error
