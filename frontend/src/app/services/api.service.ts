@@ -46,13 +46,13 @@ export class ApiService {
   }
 
   //Editar perfil
-  getUser(): Observable<any>{
+  editProfile(): Observable<any>{
     const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', 'bearer' + token);
     return this.http.get<any>(this.url + '/user', { headers });
   }
   //Actualizar perfil
-  updateUser(formValue: any) {
+  updateProfile(formValue: any) {
     const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', 'bearer' + token);
     return this.http.patch<any>(this.url + '/user', formValue, { headers });
