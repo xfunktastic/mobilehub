@@ -1,7 +1,14 @@
 <?php
-
+/**
+ * validationMessages
+ * Esta función devuelve un array asociativo que contiene mensajes de validación para diferentes campos de un formulario.
+ * Los mensajes se utilizan para informar al usuario sobre errores específicos al validar los datos del formulario.
+ *
+ * @return array Un array asociativo con mensajes de validación.
+ */
 function validationMessages()
 {
+    // Definición de mensajes de validación para diferentes campos del formulario.
     $messages = [
         'rut.required' => 'El campo RUT es obligatorio.',
         'rut.unique' => 'El RUT proporcionado ya está registrado.',
@@ -33,6 +40,9 @@ function validationMessages()
         'confirm_password.min' => 'La contraseña confirmada debe tener al menos :min caracteres.',
         'confirm_password.same' => 'La contraseña confirmada debe ser igual a la contraseña nueva.',
     ];
+
+    // Retorna el array de mensajes de validación.
     return $messages;
 }
+
 
