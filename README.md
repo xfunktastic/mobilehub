@@ -54,7 +54,7 @@ Este proyecto consiste en la creación de una aplicación móvil para la asignat
 
 - El backend será ejecutado en [http://localhost:8000/api/profile](http://localhost:8000/profileapi/).
 
-## Configuración del Frontend (Angular)
+## Configuración del Frontend (Ionic)
 
 1. Navega al directorio del frontend: `cd frontend`.
 
