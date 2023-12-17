@@ -38,7 +38,7 @@ class AuthController extends Controller
 
             ], $messages);
 
-            // Validación y limpieza del RUT
+            // Obtener digito verificador validado para crear usuario
             $cleanedRut = $this->validateRut($request->rut, $request->rut, function () {});
 
             // Creación del nuevo usuario
@@ -53,17 +53,15 @@ class AuthController extends Controller
             // Generación de token JWT para el usuario recién registrado
             $token = JWTAuth::fromUser($user);
 
-            // Respuesta JSON con información del usuario y el token
+            // Mensaje de creación de usuario y token
             return response()->json([
-                'user' => $user,
-                'token' => $token,
                 'success' => 'Has creado un usuario',
             ], 201);
         } catch (ValidationException $e) {
             // Error de validación
             return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            // Excepción general
+            // Errores de servidor
             return response()->json(['errors' => $e->getMessage()], 500);
         }
     }
@@ -131,7 +129,6 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-
     public function login(Request $request)
     {
         try {
@@ -142,7 +139,7 @@ class AuthController extends Controller
                 'password' => 'required|string|min:8',
             ], $messages);
 
-            // Obtener las credenciales del usuario
+            // Obtener las email y contraseña para iniciar sesión
             $credentials = $request->only('email', 'password');
 
             // Verificar las credenciales
@@ -163,7 +160,7 @@ class AuthController extends Controller
             $errors = $e->validator->errors()->getMessages();
             return response()->json(['errors' => $errors], 422);
         } catch (\Exception $e) {
-            // Excepción general
+            // Errores de servidor
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
