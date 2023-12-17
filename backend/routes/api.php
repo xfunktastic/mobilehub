@@ -16,20 +16,21 @@ use App\Http\Controllers\UserController;
 |
 */
 
-//Registrarse
+// Registrarse - Permite a los usuarios registrarse en la aplicación
 Route::post('register', [AuthController::class, 'register']);
-//Iniciar sesión
+
+// Iniciar sesión - Permite a los usuarios iniciar sesión en la aplicación
 Route::post('login', [AuthController::class, 'login']);
-// Cerrar sesión
+
+// Cerrar sesión - Permite a los usuarios cerrar sesión en la aplicación
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware(['jwt'])->group(function()
-{
-    // Actualizar Contraseña
+Route::middleware(['jwt'])->group(function() {
+    // Actualizar Contraseña - Permite a los usuarios autenticados actualizar su contraseña
     Route::patch('/update-password', [UserController::class, 'updatePassword']);
 
     // Editar usuario
-    Route::get('/user', [UserController::class, 'editProfile']); // Obtener datos del usuario para editar
-    Route::patch('/user', [UserController::class, 'updateProfile']); // Actualizar los datos del usuario
-
+    Route::get('/user', [UserController::class, 'editProfile']); // Obtiene datos del usuario para editar
+    Route::patch('/user', [UserController::class, 'updateProfile']); // Actualiza los datos del usuario
 });
+
