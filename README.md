@@ -39,8 +39,10 @@ Este proyecto consiste en la creación de una aplicación móvil para la asignat
 5. Copia el archivo de configuración: `cp .env.example .env`.
     
 6. Genera la clave de la aplicación: `php artisan key:generate`.
+
+7. Genera la clave secreta de JWT: `php artisan jwt:secret`.
     
-7. Configura la base de datos en el archivo con tus datos `.env`.
+8. Configura la base de datos en el archivo con tus datos `.env`.
     
 9. Ejecuta las migraciones y los seeders: 
 `php artisan migrate`.
