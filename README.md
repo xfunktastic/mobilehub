@@ -39,20 +39,22 @@ Este proyecto consiste en la creación de una aplicación móvil para la asignat
 5. Copia el archivo de configuración: `cp .env.example .env`.
     
 6. Genera la clave de la aplicación: `php artisan key:generate`.
+
+7. Genera la clave secreta de JWT: `php artisan jwt:secret`.
     
-7. Configura la base de datos en el archivo con tus datos `.env`.
+8. Configura la base de datos en el archivo con tus datos `.env`.
     
 9. Ejecuta las migraciones y los seeders: 
 `php artisan migrate`.
 
 10. Agrega esta línea de codigo en: `backend\vendor\autoload.php`
-`require_once __DIR__ . '/../app/helpers/MyHelper.php'`.
+`require_once __DIR__ . '/../app/helpers/MyHelper.php';`.
 
 11. Inicia el servidor: `php artisan serve`.
 
 - El backend será ejecutado en [http://localhost:8000/api/profile](http://localhost:8000/profileapi/).
 
-## Configuración del Frontend (Angular)
+## Configuración del Frontend (Ionic)
 
 1. Navega al directorio del frontend: `cd frontend`.
 
