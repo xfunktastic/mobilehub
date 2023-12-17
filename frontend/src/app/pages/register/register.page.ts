@@ -20,8 +20,7 @@ export class RegisterPage {
 
   /** Indicador para mostrar la tarjeta de éxito al iniciar sesión. */
   showSuccess: boolean = false;
-
-
+  successMessage: string ='';
 
   /**
    * Constructor del componente RegisterPage.
@@ -52,15 +51,13 @@ export class RegisterPage {
       // Llamada a la API para registrar los datos proporcionados en el formulario
       const response = await this.ApiService.register(this.form.value);
       const success = response.success;
-
       if(success){
         // Almacenar el token devuelto por la API en el almacenamiento local
         localStorage.setItem('token', response.token);
         // Reiniciar el formulario después del registro exitoso
         this.form.reset();
-
-        this.showSuccess = true;
-
+        this.showSuccess= true;
+        this.successMessage = success;
         // Temporizador para redirigir a otra vista después de 3 segundos (3000 ms)
         setTimeout(() => {
           this.router.navigate(['/menu']); // Cambiar a la vista del menú después del tiempo especificado
@@ -88,5 +85,9 @@ export class RegisterPage {
         });
       }
     }
+  }
+
+  goHome(){
+    this.router.navigate(['/home']);
   }
 }
