@@ -52,7 +52,7 @@ Este proyecto consiste en la creación de una aplicación móvil para la asignat
 
 11. Inicia el servidor: `php artisan serve`.
 
-- El backend será ejecutado en [http://localhost:8000/api/profile](http://localhost:8000/profileapi/).
+- El backend será ejecutado en [http://localhost:8000](http://localhost:8000).
 
 ## Configuración del Frontend (Ionic)
 
@@ -64,7 +64,7 @@ Este proyecto consiste en la creación de una aplicación móvil para la asignat
 
 4. Inicia la aplicación Ionic: `ng serve -o`.
 
-El frontend estará disponible en [http://localhost:4200/](http://localhost:4200/).
+El frontend estará disponible en [http://localhost:4200/home](http://localhost:4200/home).
 
 ## Autor
 
