@@ -8,13 +8,18 @@ import { MenuController } from '@ionic/angular';
 })
 export class MenuPage implements OnInit {
 
-  constructor(private menu:MenuController) { }
+  constructor(private menu: MenuController) { }
 
   ngOnInit() {
+    // Realiza inicializaciones o configuraciones iniciales
   }
 
-  openMenu(){
-    this.menu.enable(true,'main-menu');
+  /**
+   * Abre el menú principal
+   * Esto habilita y abre el menú identificado como 'main-menu'
+   */
+  openMenu() {
+    this.menu.enable(true, 'main-menu');
     this.menu.open('main-menu');
   }
 
