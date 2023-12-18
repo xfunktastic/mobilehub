@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "2385f0f1-e036-43fd-88b7-084e5d4c660e",
+		"name": "mobilehub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "29974575"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rut\": \"20.545.216-8\",\r\n    \"full_name\": \"Ignacio Avendaño\",\r\n    \"email\": \"ignacio.avendano@alumnos.ucn.cl\",\r\n    \"year\": 2001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "127.0.0.1:8000/api/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ignacio.avendano@alumnos.ucn.cl\",\r\n    \"password\":\"205452168\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "127.0.0.1:8000/api/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3JlZ2lzdGVyIiwiaWF0IjoxNzAyNDc2NjIwLCJleHAiOjE3MDI0ODAyMjAsIm5iZiI6MTcwMjQ3NjYyMCwianRpIjoiU3NvVEpWMFU5QjlZNlE5byIsInN1YiI6IjQwIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.EDduYqLLp4uCDAa316MqeeNtKHP01xHunKM1Ges0toQ"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "127.0.0.1:8000/api/logout"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Update password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3JlZ2lzdGVyIiwiaWF0IjoxNzAyNTI1NzUzLCJleHAiOjE3MDI1MjkzNTMsIm5iZiI6MTcwMjUyNTc1MywianRpIjoiVHpBNjQwM0h1M1FPdUdFMCIsInN1YiI6IjQ5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.TnzC7qFBgau2DL6K1ECCGCHMJd0Y2MZLYrFX21Vl45s"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"205452168\",\r\n    \"new_password\": \"cambio20232023\",\r\n    \"confirm_password\": \"cambio20232023\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "127.0.0.1:8000/api/update-password"
+					},
+					"response": []
+				},
+				{
+					"name": "View  repositories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://api.github.com/users/dizkm8/repos"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzAyODU3NzYxLCJleHAiOjE3MDI4NjEzNjEsIm5iZiI6MTcwMjg1Nzc2MSwianRpIjoiU2RoTGUzUWJ3bVhhNHA5UiIsInN1YiI6IjY2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.blM8ue6W8SfCsZbxxcLFluUkf1csaKQUwnrH9MFGezM"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "127.0.0.1:8000/api/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzAyODYxMDg0LCJleHAiOjE3MDI4NjQ2ODQsIm5iZiI6MTcwMjg2MTA4NCwianRpIjoiWTR3ZmdJSHlHM1pUU0FYNCIsInN1YiI6Ijc0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.6eIC66VJge-2jUHbKe0anUPRLrWlId860fjvW7rSulY"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\": \"Ignacio Francisco\",\r\n    \"email\": \"ignacio.ramirez@alumnos.ucn.cl\",\r\n    \"year\": 2000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "127.0.0.1:8000/api/user"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
