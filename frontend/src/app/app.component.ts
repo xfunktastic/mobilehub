@@ -10,6 +10,8 @@ import { MenuController } from '@ionic/angular';
 export class AppComponent {
   constructor(private ApiService:ApiService, private menuController:MenuController) {}
 
+
+  //Llamamos al logout desde el menu
   logout(){
     this.ApiService.logout();
     this.menuController.close('main-menu');
