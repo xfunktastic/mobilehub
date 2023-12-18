@@ -87,6 +87,7 @@ export class RegisterPage {
     }
   }
 
+  //Te redirige hacia la página principal
   goHome(){
     this.router.navigate(['/home']);
   }
