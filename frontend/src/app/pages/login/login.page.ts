@@ -80,6 +80,7 @@ export class LoginPage {
     }
   }
 
+  //Te redirige hacia la página principal
   goHome(){
     this.router.navigate(['/home']);
   }
